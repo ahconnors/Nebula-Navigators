@@ -20,8 +20,6 @@ class Player(pygame.sprite.Sprite):
         self.velocity_y = 0
         self.acceleration_x = 0
         self.acceleration_y = 0
-        self.posx = 400
-        self.posy = 300
         
     def accelerate(self, acceleration_x, acceleration_y):
         self.acceleration_x = acceleration_x

@@ -6,6 +6,7 @@ import pygame.freetype
 from pygame.sprite import Sprite
 from pygame.rect import Rect
 from enum import Enum
+from planet import Planet
 
 
 # Define colors
@@ -156,12 +157,12 @@ def play_level(screen,player,background):
         return_btn.draw(screen)
 
         keys = pygame.key.get_pressed()
-        dx = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
-        dy = keys[pygame.K_DOWN] - keys[pygame.K_UP]
+        dt = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
+        da = keys[pygame.K_DOWN] - keys[pygame.K_UP]
 
         # Apply acceleration
-        acceleration_x = dx * ACCELERATION_X
-        acceleration_y = dy * ACCELERATION_Y
+        acceleration_x = dt * ACCELERATION_X
+        acceleration_y = da * ACCELERATION_Y
 
         # Update player velocity based on acceleration
         player.accelerate(acceleration_x, acceleration_y)
