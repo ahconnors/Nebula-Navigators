@@ -1,12 +1,169 @@
 import pygame
 import sys
 from rocket import Player
+<<<<<<< Updated upstream
 import time
+=======
+import pygame.freetype
+from pygame.sprite import Sprite
+from pygame.rect import Rect
+from enum import Enum
+>>>>>>> Stashed changes
 
 
 # Define colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+PURPLE = (93, 63, 211)
+
+
+def create_surface_with_text(text, font_size, text_rgb, bg_rgb):
+    """ Returns surface with text written on """
+    font = pygame.freetype.SysFont("Courier", font_size, bold=True)
+    surface, _ = font.render(text=text, fgcolor=text_rgb, bgcolor=bg_rgb)
+    return surface.convert_alpha()
+class UIElement(Sprite):
+    """ An user interface element that can be added to a surface """
+
+    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, action=None):
+        """
+        Args:
+            center_position - tuple (x, y)
+            text - string of text to write
+            font_size - int
+            bg_rgb (background colour) - tuple (r, g, b)
+            text_rgb (text colour) - tuple (r, g, b)
+        """
+        self.mouse_over = False  # indicates if the mouse is over the element
+
+        # create the default image
+        default_image = create_surface_with_text(
+            text=text, font_size=font_size, text_rgb=text_rgb, bg_rgb=bg_rgb
+        )
+
+        # create the image that shows when mouse is over the element
+        highlighted_image = create_surface_with_text(
+            text=text, font_size=font_size * 1.2, text_rgb=text_rgb, bg_rgb=bg_rgb
+        )
+
+        # add both images and their rects to lists
+        self.images = [default_image, highlighted_image]
+        self.rects = [
+            default_image.get_rect(center=center_position),
+            highlighted_image.get_rect(center=center_position),
+        ]
+
+        # calls the init method of the parent sprite class
+        super().__init__()
+
+        self.action = action
+        # properties that vary the image and its rect when the mouse is over the element
+    @property
+    def image(self):
+        return self.images[1] if self.mouse_over else self.images[0]
+
+    @property
+    def rect(self):
+        return self.rects[1] if self.mouse_over else self.rects[0]
+
+    def update(self, mouse_pos, mouse_up):
+        """ Updates the element's appearance depending on the mouse position
+            and returns the button's action if clicked.
+        """
+        if self.rect.collidepoint(mouse_pos):
+            self.mouse_over = True
+            if mouse_up:
+                return self.action
+        else:
+            self.mouse_over = False
+
+    def draw(self, surface):
+        """ Draws element onto a surface """
+        surface.blit(self.image, self.rect)
+
+def title_screen(screen):
+    uielement = UIElement(
+        center_position=(400, 200),
+        font_size=40,
+        bg_rgb=PURPLE,
+        text_rgb=WHITE,
+        text="Welcome to Nebula Navigators",
+    )
+    start_btn = UIElement(
+        center_position=(400, 400),
+        font_size=30,
+        bg_rgb=PURPLE,
+        text_rgb=WHITE,
+        text="Start Game",
+        action=GameState.NEWGAME,
+    )
+    quit_btn = UIElement(
+        center_position=(400, 500),
+        font_size=30,
+        bg_rgb=PURPLE,
+        text_rgb=WHITE,
+        text="Quit Game",
+        action=GameState.QUIT,
+    )
+
+    buttons = [start_btn, quit_btn,uielement]
+    
+
+    while True:
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+        screen.fill(PURPLE)
+
+        for button in buttons:
+            ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if ui_action is not None:
+                return ui_action
+            button.draw(screen)
+
+        pygame.display.flip()
+
+def play_level(screen,player):
+    return_btn = UIElement(
+        center_position=(140, 570),
+        font_size=20,
+        bg_rgb=PURPLE,
+        text_rgb=WHITE,
+        text="Return to main menu",
+        action=GameState.TITLE,
+    )
+
+
+
+    while True:
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+
+        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return ui_action
+        return_btn.draw(screen)
+
+        keys = pygame.key.get_pressed()
+        dx = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
+        dy = keys[pygame.K_DOWN] - keys[pygame.K_UP]
+
+        screen.fill(BLACK)
+
+        player.update(dx, dy)
+
+        screen.blit(player.image, player.rect)
+
+        pygame.display.flip()
+
+class GameState(Enum):
+    QUIT = -1
+    TITLE = 0
+    NEWGAME = 1
+
 
 # Define acceleration constants
 ACCELERATION_X = 0.01
@@ -19,17 +176,38 @@ def Main():
     pygame.display.set_caption('Nebula Navigators')
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
+<<<<<<< Updated upstream
     background = pygame.image.load('Background.png')
     background = pygame.transform.scale(background, (2000, 2000))
+=======
+    game_state = GameState.TITLE
+
+>>>>>>> Stashed changes
     # Create player object
     player = Player()
+    # create a ui element
 
+
+    # main loop
     while True:
+        if game_state == GameState.TITLE:
+            game_state = title_screen(screen)
+
+        if game_state == GameState.NEWGAME:
+            game_state = play_level(screen,player)
+
+        if game_state == GameState.QUIT:
+            pygame.quit()
+            return
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            pass
+        screen.fill(PURPLE)
 
+<<<<<<< Updated upstream
         # Get user input
         keys = pygame.key.get_pressed()
         dx = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
@@ -54,6 +232,8 @@ def Main():
         screen.blit(player.image, player.rect)
 
         # Refresh display
+=======
+>>>>>>> Stashed changes
         pygame.display.flip()
         print(clock.get_time())
         clock.tick(30)
