@@ -78,7 +78,9 @@ class UIElement(Sprite):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
 
-def title_screen(screen):
+def title_screen(screen,background):
+    screen.blit(background, (0,0))
+
     uielement = UIElement(
         center_position=(400, 200),
         font_size=40,
@@ -103,15 +105,21 @@ def title_screen(screen):
         action=GameState.QUIT,
     )
 
-    buttons = [start_btn, quit_btn,uielement]
+    buttons = [start_btn, quit_btn, uielement]
     
 
     while True:
+
         mouse_up = False
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-        screen.fill(PURPLE)
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
+        screen.blit(background, (0,0))
+
 
         for button in buttons:
             ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
@@ -137,6 +145,10 @@ def play_level(screen,player,background):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
 
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
         if ui_action is not None:
@@ -187,9 +199,11 @@ def Main():
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
     background = pygame.image.load('Background.png')
+    nebula = pygame.image.load('nebula.jpg')
     background = pygame.transform.scale(background, (2000, 2000))
     game_state = GameState.TITLE
 
+    
     # Create player object
     player = Player()
     # create a ui element
@@ -197,8 +211,16 @@ def Main():
 
     # main loop
     while True:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
+
+
         if game_state == GameState.TITLE:
-            game_state = title_screen(screen)
+            game_state = title_screen(screen,nebula)
 
         if game_state == GameState.NEWGAME:
             game_state = play_level(screen,player,background)
@@ -207,11 +229,6 @@ def Main():
             pygame.quit()
             return
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            pass
         screen.fill(PURPLE)
 
         pygame.display.flip()
