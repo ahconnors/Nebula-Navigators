@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-def Main:
+def Main():
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
     pygame.display.set_caption('My Game')
