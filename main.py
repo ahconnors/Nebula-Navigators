@@ -12,7 +12,8 @@ def Main():
     pygame.display.set_caption('Nebula Navigators')
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
-
+    background = pygame.image.load('Background.png')
+    background = pygame.transform.scale(background, (800, 600))
     # Create player object
     player = Player()
 
@@ -33,6 +34,8 @@ def Main():
         # Update player position
         player.update(dx, dy)
 
+        # Draw background
+        screen.blit(background, (0,0))
         # Draw player
         screen.blit(player.image, player.rect)
 
@@ -41,3 +44,4 @@ def Main():
 
 if __name__ == '__main__':
     Main()
+
