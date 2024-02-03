@@ -12,8 +12,8 @@ import pygame
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((50, 50))  # Placeholder image
-        self.image.fill((255, 255, 255))
+        self.original_image = pygame.image.load('Player.webp').convert_alpha()  # Load player image
+        self.image = pygame.transform.scale(self.original_image, (50, 50))
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)  # Start position
         self.velocity_x = 0

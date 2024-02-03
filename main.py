@@ -14,6 +14,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
 
+planet = Planet(600, 300, 50, WHITE)
 
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
@@ -136,6 +137,7 @@ def play_level(screen,player,background):
         action=GameState.TITLE,
     )
 
+
     while True:
         clock = pygame.time.Clock() #adds clock
         mouse_up = False
@@ -156,6 +158,7 @@ def play_level(screen,player,background):
         acceleration_x = dt * ACCELERATION_X
         acceleration_y = da * ACCELERATION_Y
 
+
         # Update player velocity based on acceleration
         player.accelerate(acceleration_x, acceleration_y)
 
@@ -170,6 +173,9 @@ def play_level(screen,player,background):
         # Draw player
         screen.blit(player.image, player.rect)
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
+        planet.draw(screen)
+        if(planet.check_collision(player)):
+            planet.handle_collision(player)
         if ui_action is not None:
             return ui_action
         return_btn.draw(screen)
