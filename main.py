@@ -1,14 +1,11 @@
 import pygame
 import sys
 from rocket import Player
-<<<<<<< Updated upstream
 import time
-=======
 import pygame.freetype
 from pygame.sprite import Sprite
 from pygame.rect import Rect
 from enum import Enum
->>>>>>> Stashed changes
 
 
 # Define colors
@@ -124,7 +121,7 @@ def title_screen(screen):
 
         pygame.display.flip()
 
-def play_level(screen,player):
+def play_level(screen,player,background):
     return_btn = UIElement(
         center_position=(140, 570),
         font_size=20,
@@ -133,8 +130,6 @@ def play_level(screen,player):
         text="Return to main menu",
         action=GameState.TITLE,
     )
-
-
 
     while True:
         mouse_up = False
@@ -147,68 +142,6 @@ def play_level(screen,player):
             return ui_action
         return_btn.draw(screen)
 
-        keys = pygame.key.get_pressed()
-        dx = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
-        dy = keys[pygame.K_DOWN] - keys[pygame.K_UP]
-
-        screen.fill(BLACK)
-
-        player.update(dx, dy)
-
-        screen.blit(player.image, player.rect)
-
-        pygame.display.flip()
-
-class GameState(Enum):
-    QUIT = -1
-    TITLE = 0
-    NEWGAME = 1
-
-
-# Define acceleration constants
-ACCELERATION_X = 0.01
-ACCELERATION_Y = 0.01
-
-def Main():
-    pygame.init()
-    clock = pygame.time.Clock() #adds clock
-    screen = pygame.display.set_mode((800, 600))
-    pygame.display.set_caption('Nebula Navigators')
-    pygame_icon = pygame.image.load('rocket.svg')
-    pygame.display.set_icon(pygame_icon)
-<<<<<<< Updated upstream
-    background = pygame.image.load('Background.png')
-    background = pygame.transform.scale(background, (2000, 2000))
-=======
-    game_state = GameState.TITLE
-
->>>>>>> Stashed changes
-    # Create player object
-    player = Player()
-    # create a ui element
-
-
-    # main loop
-    while True:
-        if game_state == GameState.TITLE:
-            game_state = title_screen(screen)
-
-        if game_state == GameState.NEWGAME:
-            game_state = play_level(screen,player)
-
-        if game_state == GameState.QUIT:
-            pygame.quit()
-            return
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            pass
-        screen.fill(PURPLE)
-
-<<<<<<< Updated upstream
-        # Get user input
         keys = pygame.key.get_pressed()
         dx = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
         dy = keys[pygame.K_DOWN] - keys[pygame.K_UP]
@@ -231,9 +164,53 @@ def Main():
         # Draw player
         screen.blit(player.image, player.rect)
 
-        # Refresh display
-=======
->>>>>>> Stashed changes
+        pygame.display.flip()
+
+class GameState(Enum):
+    QUIT = -1
+    TITLE = 0
+    NEWGAME = 1
+
+
+# Define acceleration constants
+ACCELERATION_X = 0.01
+ACCELERATION_Y = 0.01
+
+def Main():
+    pygame.init()
+    clock = pygame.time.Clock() #adds clock
+    screen = pygame.display.set_mode((800, 600))
+    pygame.display.set_caption('Nebula Navigators')
+    pygame_icon = pygame.image.load('rocket.svg')
+    pygame.display.set_icon(pygame_icon)
+    background = pygame.image.load('Background.png')
+    background = pygame.transform.scale(background, (2000, 2000))
+    game_state = GameState.TITLE
+
+    # Create player object
+    player = Player()
+    # create a ui element
+
+
+    # main loop
+    while True:
+        if game_state == GameState.TITLE:
+            game_state = title_screen(screen)
+
+        if game_state == GameState.NEWGAME:
+            game_state = play_level(screen,player,background)
+
+        if game_state == GameState.QUIT:
+            pygame.quit()
+            return
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            pass
+        screen.fill(PURPLE)
+
         pygame.display.flip()
         print(clock.get_time())
         clock.tick(30)
