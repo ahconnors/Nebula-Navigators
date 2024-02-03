@@ -132,6 +132,7 @@ def play_level(screen,player,background):
     )
 
     while True:
+        clock = pygame.time.Clock() #adds clock
         mouse_up = False
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
@@ -166,6 +167,8 @@ def play_level(screen,player,background):
 
         pygame.display.flip()
 
+        clock.tick(30)
+
 class GameState(Enum):
     QUIT = -1
     TITLE = 0
@@ -173,8 +176,8 @@ class GameState(Enum):
 
 
 # Define acceleration constants
-ACCELERATION_X = 0.01
-ACCELERATION_Y = 0.01
+ACCELERATION_X = 1
+ACCELERATION_Y = 1
 
 def Main():
     pygame.init()
@@ -212,8 +215,6 @@ def Main():
         screen.fill(PURPLE)
 
         pygame.display.flip()
-        print(clock.get_time())
-        clock.tick(30)
 
 if __name__ == '__main__':
     Main()
