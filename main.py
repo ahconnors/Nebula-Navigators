@@ -1,45 +1,232 @@
 import pygame
 import sys
 from rocket import Player
+import time
+import pygame.freetype
+from pygame.sprite import Sprite
+from pygame.rect import Rect
+from enum import Enum
+
 
 # Define colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+PURPLE = (93, 63, 211)
 
-def Main():
-    pygame.init()
-    screen = pygame.display.set_mode((800, 600))
-    pygame.display.set_caption('Nebula Navigators')
-    pygame_icon = pygame.image.load('rocket.svg')
-    pygame.display.set_icon(pygame_icon)
-    background = pygame.image.load('Background.png')
-    background = pygame.transform.scale(background, (800, 600))
-    # Create player object
-    player = Player()
+
+def create_surface_with_text(text, font_size, text_rgb):
+    """ Returns surface with text written on """
+    font = pygame.freetype.SysFont("Courier", font_size, bold=True)
+    surface, _ = font.render(text=text, fgcolor=text_rgb)
+    return surface.convert_alpha()
+class UIElement(Sprite):
+    """ An user interface element that can be added to a surface """
+
+    def __init__(self, center_position, text, font_size, text_rgb, action=None):
+        """
+        Args:
+            center_position - tuple (x, y)
+            text - string of text to write
+            font_size - int
+            bg_rgb (background colour) - tuple (r, g, b)
+            text_rgb (text colour) - tuple (r, g, b)
+        """
+        self.mouse_over = False  # indicates if the mouse is over the element
+
+        # create the default image
+        default_image = create_surface_with_text(
+            text=text, font_size=font_size, text_rgb=text_rgb
+        )
+
+        # create the image that shows when mouse is over the element
+        highlighted_image = create_surface_with_text(
+            text=text, font_size=font_size * 1.2, text_rgb=text_rgb
+        )
+
+        # add both images and their rects to lists
+        self.images = [default_image, highlighted_image]
+        self.rects = [
+            default_image.get_rect(center=center_position),
+            highlighted_image.get_rect(center=center_position),
+        ]
+
+        # calls the init method of the parent sprite class
+        super().__init__()
+
+        self.action = action
+        # properties that vary the image and its rect when the mouse is over the element
+    @property
+    def image(self):
+        return self.images[1] if self.mouse_over else self.images[0]
+
+    @property
+    def rect(self):
+        return self.rects[1] if self.mouse_over else self.rects[0]
+
+    def update(self, mouse_pos, mouse_up):
+        """ Updates the element's appearance depending on the mouse position
+            and returns the button's action if clicked.
+        """
+        if self.rect.collidepoint(mouse_pos):
+            self.mouse_over = True
+            if mouse_up:
+                return self.action
+        else:
+            self.mouse_over = False
+
+    def draw(self, surface):
+        """ Draws element onto a surface """
+        surface.blit(self.image, self.rect)
+
+def title_screen(screen,background):
+    screen.blit(background, (0,0))
+
+    uielement = UIElement(
+        center_position=(400, 200),
+        font_size=40,
+        text_rgb=WHITE,
+        text="Welcome to Nebula Navigators",
+    )
+    start_btn = UIElement(
+        center_position=(400, 400),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Start Game",
+        action=GameState.NEWGAME,
+    )
+    quit_btn = UIElement(
+        center_position=(400, 500),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Quit Game",
+        action=GameState.QUIT,
+    )
+
+    buttons = [start_btn, quit_btn, uielement]
+    
 
     while True:
+
+        mouse_up = False
         for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
             if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
+        screen.blit(background, (0,0))
+
+
+        for button in buttons:
+            ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if ui_action is not None:
+                return ui_action
+            button.draw(screen)
+
+        pygame.display.flip()
+
+def play_level(screen,player,background):
+    return_btn = UIElement(
+        center_position=(140, 570),
+        font_size=20,
+        text_rgb=WHITE,
+        text="Return to main menu",
+        action=GameState.TITLE,
+    )
+
+    while True:
+        clock = pygame.time.Clock() #adds clock
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
                 pygame.quit()
                 sys.exit()
 
-        # Get user input
+
         keys = pygame.key.get_pressed()
         dx = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
         dy = keys[pygame.K_DOWN] - keys[pygame.K_UP]
 
-        # Clear the screen
-        screen.fill(BLACK)
+        # Apply acceleration
+        acceleration_x = dx * ACCELERATION_X
+        acceleration_y = dy * ACCELERATION_Y
+
+        # Update player velocity based on acceleration
+        player.accelerate(acceleration_x, acceleration_y)
 
         # Update player position
-        player.update(dx, dy)
+        player.update()
+
+        # Clear the screen
+        screen.fill(BLACK)
 
         # Draw background
         screen.blit(background, (0,0))
         # Draw player
         screen.blit(player.image, player.rect)
+        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return ui_action
+        return_btn.draw(screen)
 
-        # Refresh display
+        pygame.display.flip()
+
+        clock.tick(30)
+
+class GameState(Enum):
+    QUIT = -1
+    TITLE = 0
+    NEWGAME = 1
+
+
+# Define acceleration constants
+ACCELERATION_X = 1
+ACCELERATION_Y = 1
+
+def Main():
+    pygame.init()
+    clock = pygame.time.Clock() #adds clock
+    screen = pygame.display.set_mode((800, 600))
+    pygame.display.set_caption('Nebula Navigators')
+    pygame_icon = pygame.image.load('rocket.svg')
+    pygame.display.set_icon(pygame_icon)
+    background = pygame.image.load('Background.png')
+    nebula = pygame.image.load('nebula.jpg')
+    background = pygame.transform.scale(background, (2000, 2000))
+    game_state = GameState.TITLE
+
+    
+    # Create player object
+    player = Player()
+    # create a ui element
+
+
+    # main loop
+    while True:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
+
+
+        if game_state == GameState.TITLE:
+            game_state = title_screen(screen,nebula)
+
+        if game_state == GameState.NEWGAME:
+            game_state = play_level(screen,player,background)
+
+        if game_state == GameState.QUIT:
+            pygame.quit()
+            return
+
+        screen.fill(PURPLE)
+
         pygame.display.flip()
 
 if __name__ == '__main__':
