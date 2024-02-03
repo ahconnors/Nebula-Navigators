@@ -146,10 +146,6 @@ def play_level(screen,player,background):
                 pygame.quit()
                 sys.exit()
 
-        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
-        if ui_action is not None:
-            return ui_action
-        return_btn.draw(screen)
 
         keys = pygame.key.get_pressed()
         dx = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
@@ -172,6 +168,10 @@ def play_level(screen,player,background):
         screen.blit(background, (0,0))
         # Draw player
         screen.blit(player.image, player.rect)
+        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return ui_action
+        return_btn.draw(screen)
 
         pygame.display.flip()
 
