@@ -15,15 +15,15 @@ BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
 
 
-def create_surface_with_text(text, font_size, text_rgb, bg_rgb):
+def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
     font = pygame.freetype.SysFont("Courier", font_size, bold=True)
-    surface, _ = font.render(text=text, fgcolor=text_rgb, bgcolor=bg_rgb)
+    surface, _ = font.render(text=text, fgcolor=text_rgb)
     return surface.convert_alpha()
 class UIElement(Sprite):
     """ An user interface element that can be added to a surface """
 
-    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, action=None):
+    def __init__(self, center_position, text, font_size, text_rgb, action=None):
         """
         Args:
             center_position - tuple (x, y)
@@ -36,12 +36,12 @@ class UIElement(Sprite):
 
         # create the default image
         default_image = create_surface_with_text(
-            text=text, font_size=font_size, text_rgb=text_rgb, bg_rgb=bg_rgb
+            text=text, font_size=font_size, text_rgb=text_rgb
         )
 
         # create the image that shows when mouse is over the element
         highlighted_image = create_surface_with_text(
-            text=text, font_size=font_size * 1.2, text_rgb=text_rgb, bg_rgb=bg_rgb
+            text=text, font_size=font_size * 1.2, text_rgb=text_rgb
         )
 
         # add both images and their rects to lists
@@ -85,14 +85,12 @@ def title_screen(screen,background):
     uielement = UIElement(
         center_position=(400, 200),
         font_size=40,
-        bg_rgb=PURPLE,
         text_rgb=WHITE,
         text="Welcome to Nebula Navigators",
     )
     start_btn = UIElement(
         center_position=(400, 400),
         font_size=30,
-        bg_rgb=PURPLE,
         text_rgb=WHITE,
         text="Start Game",
         action=GameState.NEWGAME,
@@ -100,7 +98,6 @@ def title_screen(screen,background):
     quit_btn = UIElement(
         center_position=(400, 500),
         font_size=30,
-        bg_rgb=PURPLE,
         text_rgb=WHITE,
         text="Quit Game",
         action=GameState.QUIT,
@@ -134,7 +131,6 @@ def play_level(screen,player,background):
     return_btn = UIElement(
         center_position=(140, 570),
         font_size=20,
-        bg_rgb=PURPLE,
         text_rgb=WHITE,
         text="Return to main menu",
         action=GameState.TITLE,
@@ -151,10 +147,6 @@ def play_level(screen,player,background):
                 pygame.quit()
                 sys.exit()
 
-        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
-        if ui_action is not None:
-            return ui_action
-        return_btn.draw(screen)
 
         keys = pygame.key.get_pressed()
         dt = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
@@ -177,6 +169,10 @@ def play_level(screen,player,background):
         screen.blit(background, (0,0))
         # Draw player
         screen.blit(player.image, player.rect)
+        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return ui_action
+        return_btn.draw(screen)
 
         pygame.display.flip()
 
