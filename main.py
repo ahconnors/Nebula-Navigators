@@ -1,6 +1,8 @@
 import pygame
 import sys
 from rocket import Player
+import time
+
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -8,12 +10,13 @@ BLACK = (0, 0, 0)
 
 def Main():
     pygame.init()
+    clock = pygame.time.Clock() #adds clock
     screen = pygame.display.set_mode((800, 600))
     pygame.display.set_caption('Nebula Navigators')
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
     background = pygame.image.load('Background.png')
-    background = pygame.transform.scale(background, (800, 600))
+    background = pygame.transform.scale(background, (2000, 2000))
     # Create player object
     player = Player()
 
@@ -41,6 +44,8 @@ def Main():
 
         # Refresh display
         pygame.display.flip()
+        print(clock.get_time())
+        clock.tick(30)
 
 if __name__ == '__main__':
     Main()
