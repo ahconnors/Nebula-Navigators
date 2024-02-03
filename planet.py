@@ -1,6 +1,6 @@
 import pygame
 import sys
-from planet import Planet
+#from planet import Planet
 
 class Planet:
     def __init__(self, x, y, radius, color):
