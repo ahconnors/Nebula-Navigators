@@ -1,5 +1,6 @@
 import pygame
 import sys
+from screeninfo import get_monitors
 from rocket import Player
 from camera import Camera
 import time
@@ -11,6 +12,9 @@ from planet import Planet
 import math
 from materialBar import MaterialBar
 
+
+resX = 0
+resY = 0
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -252,17 +256,22 @@ ROT = .15
 ACCELERATION = 1
 
 def Main():
+    # Set up the display
+    monitor = ""
+    for m in get_monitors():
+        monitor = str(m)
+        break
+    resX = (int)(monitor[monitor.find("width=") + 6 : monitor.find(",", monitor.find("width="))])
+    resY = (int)(monitor[monitor.find("height=") + 7 : monitor.find(",", monitor.find("height="))])
+
     pygame.init()
     clock = pygame.time.Clock() #adds clock
-    screen = pygame.display.set_mode((1600, 1200), pygame.RESIZABLE)
-    screen_width, screen_height = screen.get_size()
+    screen = pygame.display.set_mode((resX, resY), pygame.RESIZABLE)
     pygame.display.set_caption('Nebula Navigators')
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
-    background = pygame.image.load('Background.png')
     nebula = pygame.image.load('nebula.jpg')
-    nebula = pygame.transform.scale(nebula, (1600, 1200))
-    background = pygame.transform.scale(background, (2000, 2000))
+    nebula = pygame.transform.scale(nebula, (resX, resY))
     game_state = GameState.TITLE
 
 
@@ -285,10 +294,10 @@ def Main():
 
 
         if game_state == GameState.TITLE:
-            game_state = title_screen(screen,nebula, screen_width, screen_height)
+            game_state = title_screen(screen,nebula, resX, resY)
 
         if game_state == GameState.NEWGAME:
-            game_state = play_level(screen,player,camera, screen_width, screen_height)
+            game_state = play_level(screen,player,camera, resX, resY)
 
         if game_state == GameState.QUIT:
             pygame.quit()

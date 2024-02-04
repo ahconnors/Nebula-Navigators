@@ -2,6 +2,7 @@ import pygame
 import sys
 import math
 import random
+
 def create_multicolored_circle(radius):
     surface = pygame.Surface((radius * 2, radius * 2), pygame.SRCALPHA)
 

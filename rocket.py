@@ -19,7 +19,6 @@ def rot_center(image, angle):
     return rot_image
 
 
-
 class Player(pygame.sprite.Sprite):
     #def flame(self):
       #  self.cleanImage=self.lit_image
@@ -72,6 +71,9 @@ class Player(pygame.sprite.Sprite):
         # Update position based on velocity
         self.posx += self.velocity_x
         self.posy += self.velocity_y
+
+        # Check validity of position
+        #self.posx = max()
 
     
     def setPos(self, x, y):
