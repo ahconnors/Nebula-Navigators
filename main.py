@@ -313,6 +313,24 @@ def play_level(screen,player,camera, resX, resY):
         text_rgb=WHITE,
         text="Almost out of fuel! 25% left.",
     )
+    fuel_notif = UIElement(
+        center_position=(800, resY * 0.95),
+        font_size=40,
+        text_rgb=WHITE,
+        text="Almost out of fuel! 25% left.",
+    )
+    water_notif = UIElement(
+        center_position=(800, resY * 0.95),
+        font_size=40,
+        text_rgb=WHITE,
+        text="Almost out of water! 25% left.",
+    )
+    oxygen_notif = UIElement(
+        center_position=(800, resY * 0.95),
+        font_size=40,
+        text_rgb=WHITE,
+        text="Almost out of oxygen! 25% left.",
+    )
     health_bar = MaterialBar(20, 20, 100, "red")
     health_bar.setValue(100)
     health_bar.setLabel("Ship Health")
@@ -414,8 +432,12 @@ def play_level(screen,player,camera, resX, resY):
             if ui_action is not None:
                 return ui_action
         return_btn.draw(screen)
-        if(fuel_bar.value < 100):
+        if(fuel_bar.value < 25):
             fuel_notif.draw(screen)
+        if(water_bar.value < 25):
+            water_notif.draw(screen)
+        if(oxygen_bar.value < 25):
+            oxygen_notif.draw(screen)
         health_bar.draw(screen)
         fuel_bar.draw(screen)
         oxygen_bar.draw(screen)
