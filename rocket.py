@@ -31,7 +31,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.original_image
         self.cleanImage=self.original_image
         self.rect = self.original_image.get_rect()
-        self.rect.center = (800, 600)  # Start position
+        self.rect.center = (750, 425)  # Start position
         self.velocity_x = 0
         self.velocity_y = 0
         self.acceleration_x = 0
@@ -39,6 +39,14 @@ class Player(pygame.sprite.Sprite):
         self.posx= 0
         self.posy= 0
         self.angle= (math.pi)/2
+        self.posx=0
+        self.posy=0
+        
+        self.landed = False
+        self.gettingFuel = False
+        self.gettingOxygen = False
+        self.gettingWater = False
+        self.gettingSteel = False
     
 
     def accelerate(self, rot, acceleration):
@@ -62,9 +70,7 @@ class Player(pygame.sprite.Sprite):
         self.posx += self.velocity_x
         self.posy += self.velocity_y
 
-        # Keep the player on the 
     
-
     def setPos(self, x, y):
         self.posx = x
         self.posy = y

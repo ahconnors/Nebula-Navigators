@@ -83,24 +83,24 @@ class UIElement(Sprite):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
 
-def title_screen(screen,background):
+def title_screen(screen,background, screen_width, screen_height):
     screen.blit(background, (0,0))
 
     uielement = UIElement(
-        center_position=(800, 400),
+        center_position=(800, screen_height - 400),
         font_size=40,
         text_rgb=WHITE,
         text="Welcome to Nebula Navigators",
     )
     start_btn = UIElement(
-        center_position=(800, 500),
+        center_position=(800, screen_height - 300),
         font_size=30,
         text_rgb=WHITE,
         text="Start Game",
         action=GameState.NEWGAME,
     )
     quit_btn = UIElement(
-        center_position=(800, 600),
+        center_position=(800, screen_height - 200),
         font_size=30,
         text_rgb=WHITE,
         text="Quit Game",
@@ -131,19 +131,30 @@ def title_screen(screen,background):
 
         pygame.display.flip()
 
-def play_level(screen,player,camera):
+def play_level(screen,player,camera, screen_width, screen_height):
     return_btn = UIElement(
-        center_position=(180, 1000),
+        center_position=(180, screen_height - 50),
         font_size=20,
         text_rgb=WHITE,
         text="Return to main menu",
         action=GameState.TITLE,
     )
 
-    health_bar = MaterialBar(20, 20, 200, 30, 100, (0, 255, 0))
+    health_bar = MaterialBar(20, 20, 100, "red")
     health_bar.setValue(100)
-    fuel_bar = MaterialBar(20, 60, 200, 30, 100, (255, 255, 0))
+    health_bar.setLabel("Ship Health")
+    fuel_bar = MaterialBar(150, 20, 100, "orange")
     fuel_bar.setValue(100)
+    fuel_bar.setLabel("Fuel Level")
+    oxygen_bar = MaterialBar(280, 20, 100, "green")
+    oxygen_bar.setValue(100)
+    oxygen_bar.setLabel("Oxygen")
+    water_bar = MaterialBar(410, 20, 100, "blue")
+    water_bar.setValue(100)
+    water_bar.setLabel("Water")
+    steel_bar = MaterialBar(540, 20, 100, "grey")
+    steel_bar.setValue(100)
+    steel_bar.setLabel("Steel")
 
     while True:
         clock = pygame.time.Clock() #adds clock
@@ -161,11 +172,13 @@ def play_level(screen,player,camera):
         dt = -keys[pygame.K_RIGHT] + keys[pygame.K_LEFT]
         da = - keys[pygame.K_UP]
 
+        # Check if fuel is being used
+        if(da != 0):
+            fuel_bar.setValue(fuel_bar.value - 0.1)
 
         # Apply acceleration
         rot = dt * ROT
         acceleration = da * ACCELERATION
-
 
         # Update player velocity based on acceleration
         player.accelerate(rot, acceleration)
@@ -190,12 +203,41 @@ def play_level(screen,player,camera):
             if ui_action is not None:
                 return ui_action
         return_btn.draw(screen)
+
         health_bar.draw(screen)
         fuel_bar.draw(screen)
+        oxygen_bar.draw(screen)
+        water_bar.draw(screen)
+        steel_bar.draw(screen)
 
         pygame.display.flip()
 
         clock.tick(30)
+
+        if(player.velocity_x > 0 and player.velocity_y > 0):
+            player.landed = False
+               
+        if(player.gettingOxygen):
+            oxygen_bar.setValue(oxygen_bar.value + 0.1)
+        else:
+            oxygen_bar.setValue(oxygen_bar.value - 0.01)
+        
+        if(player.gettingWater):
+            water_bar.setValue(water_bar.value + 0.1)
+        else:
+            water_bar.setValue(water_bar.value - 0.01)
+
+        if(not player.landed):
+            continue
+        
+        if(player.gettingFuel):
+            fuel_bar.setValue(fuel_bar.value + 0.1)
+        
+        if(player.gettingSteel):
+            steel_bar.setValue(steel_bar.value + 0.1)
+        
+        
+
 
 class GameState(Enum):
     QUIT = -1
@@ -211,6 +253,7 @@ def Main():
     pygame.init()
     clock = pygame.time.Clock() #adds clock
     screen = pygame.display.set_mode((1600, 1200), pygame.RESIZABLE)
+    screen_width, screen_height = screen.get_size()
     pygame.display.set_caption('Nebula Navigators')
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
@@ -240,10 +283,10 @@ def Main():
 
 
         if game_state == GameState.TITLE:
-            game_state = title_screen(screen,nebula)
+            game_state = title_screen(screen,nebula, screen_width, screen_height)
 
         if game_state == GameState.NEWGAME:
-            game_state = play_level(screen,player,camera)
+            game_state = play_level(screen,player,camera, screen_width, screen_height)
 
         if game_state == GameState.QUIT:
             pygame.quit()
