@@ -75,10 +75,8 @@ class Planet:
             self.x_collision = self.centerx - self.x
             self.y_collision= -(self.centery - self.y)
             self.landed = True
-            print("Landed")
         else:
             self.landed = False
-            print("Not landed")
         return distance < self.radius + player.rect.width / 2 
 
     def handle_collision(self, player):
