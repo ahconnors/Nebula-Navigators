@@ -21,14 +21,22 @@ resY = 0
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
-Planetlist= [Planet(400, 300, 100,[False,False, False,False] ),Planet(400, -300, 100,[False,False, False,False]  ),Planet(-400, 300, 100 ,[False,False, False,False] )]
-
+Planetlist= [Planet(1000, 300, 4000,[False,False, False,False], 100 )]
 
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
     font = pygame.freetype.SysFont("Courier", font_size, bold=True)
     surface, _ = font.render(text=text, fgcolor=text_rgb)
     return surface.convert_alpha()
+
+def find_closest_planet(player, planetlist):
+    closest = planetlist[0]
+    for planet in planetlist:
+        if(math.sqrt((player.posx - planet.retX())**2 + (player.posy - planet.retY())**2) < math.sqrt((player.posx - closest.retX())**2 + (player.posy - closest.retY())**2)):
+            closest = planet
+    
+    return closest
+
 class UIElement(Sprite):
     """ An user interface element that can be added to a surface """
 
@@ -87,6 +95,101 @@ class UIElement(Sprite):
     def draw(self, surface):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
+def out_of_water_screen(screen,background, screen_width, screen_height):
+    screen.blit(background, (0,0))
+
+    uielement = UIElement(
+        center_position=(800, screen_height - 600),
+        font_size=40,
+        text_rgb=WHITE,
+        text="You are out of water",
+    )
+    start_btn = UIElement(
+        center_position=(800, screen_height - 500),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Return to main menu",
+        action=GameState.TITLE,
+    )
+    quit_btn = UIElement(
+        center_position=(800, screen_height - 400),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Quit Game",
+        action=GameState.QUIT,
+    )
+
+    buttons = [uielement, start_btn, quit_btn]
+    
+
+    while True:
+
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
+        screen.blit(background, (0,0))
+
+
+        for button in buttons:
+            ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if ui_action is not None:
+                return ui_action
+            button.draw(screen)
+
+        pygame.display.flip()
+
+def out_of_food_screen(screen,background, screen_width, screen_height):
+    screen.blit(background, (0,0))
+
+    uielement = UIElement(
+        center_position=(800, screen_height - 600),
+        font_size=40,
+        text_rgb=WHITE,
+        text="You are out of food",
+    )
+    start_btn = UIElement(
+        center_position=(800, screen_height - 500),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Return to main menu",
+        action=GameState.TITLE,
+    )
+    quit_btn = UIElement(
+        center_position=(800, screen_height - 400),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Quit Game",
+        action=GameState.QUIT,
+    )
+
+    buttons = [uielement, start_btn, quit_btn]
+    
+
+    while True:
+
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
+        screen.blit(background, (0,0))
+
+
+        for button in buttons:
+            ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if ui_action is not None:
+                return ui_action
+            button.draw(screen)
+
+        pygame.display.flip()
 def out_of_fuel_screen(screen,background, screen_width, screen_height):
     screen.blit(background, (0,0))
 
@@ -233,9 +336,15 @@ def play_level(screen,player,camera, resX, resY):
         # Apply acceleration
         rot = dt * ROT
         acceleration = da * ACCELERATION
+        G=100
+        #notes for gravity calculation
+        closestPlanet = find_closest_planet(player, Planetlist)
+        planetDistance = math.sqrt((player.posx - closestPlanet.retX())**2 + (player.posy - closestPlanet.retY())**2)
+        planetAngle = math.atan2((player.posy - closestPlanet.retY()), (player.posx - closestPlanet.retX()))
+        gravity =G*closestPlanet.mass/(planetDistance ** 2)
 
         # Update player velocity based on acceleration
-        player.accelerate(rot, acceleration)
+        player.accelerate(rot, acceleration,gravity ,planetAngle)
 
         # Update player position
         player.update()
@@ -298,6 +407,8 @@ class GameState(Enum):
     TITLE = 0
     NEWGAME = 1
     NOFUEL = 2
+    FOOD = 3
+    WATER = 4
 
 
 # Define acceleration constants
@@ -354,6 +465,10 @@ def Main():
             return
         if(game_state == GameState.NOFUEL):
             game_state = out_of_fuel_screen(screen,nebula, resX, resY)
+        if(game_state == GameState.FOOD):
+            game_state = out_of_food_screen(screen,nebula, resX, resY)
+        if(game_state == GameState.WATER):
+            game_state = out_of_water_screen(screen,nebula, resX, resY)
 
         screen.fill(PURPLE)
 
