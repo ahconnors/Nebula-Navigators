@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.original_image
         self.cleanImage=self.original_image
         self.rect = self.original_image.get_rect()
-        self.rect.center = (800, 600)  # Start position
+        self.rect.center = (750, 425)  # Start position
         self.velocity_x = 0
         self.velocity_y = 0
         self.acceleration_x = 0
@@ -65,13 +65,13 @@ class Player(pygame.sprite.Sprite):
         self.posx += self.velocity_x
         self.posy += self.velocity_y
 
-        # Keep the player on the 
     
     def setPos(self, x, y):
         self.posx = x
         self.posy = y
 
-    def check_border_collision(player, screen_width, screen_height):
-        if player.posx < 0 or player.posx > screen_width or player.posy < 0 or player.posy > screen_height:
-            player.velocity_x = 0
-            player.velocity_y = 0
+    def check_border_collision(self):
+        if self.rect.left <= 0 or self.rect.right >= screen_width:
+            self.velocity_x = 0
+        if self.rect.top <= 0 or self.rect.bottom >= screen_height:
+            self.velocity_y = 0
