@@ -164,7 +164,7 @@ def play_level(screen,player,camera):
 
         # Update player velocity based on acceleration
         player.accelerate(rot, acceleration)
-        player.flame()
+        #player.flame()
 
         # Update player position
         player.update()
@@ -218,7 +218,7 @@ def Main():
     camera = Camera()
     
     # Create player object
-    player = Player(camera)
+    player = Player()
     # create a ui element
 
 
