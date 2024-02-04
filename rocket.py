@@ -64,7 +64,12 @@ class Player(pygame.sprite.Sprite):
         # Update position based on velocity
         self.posx += self.velocity_x
         self.posy += self.velocity_y
+<<<<<<< HEAD
         # self.check_border_collision(screen_width, screen_height)
+=======
+
+        # Keep the player on the 
+>>>>>>> refs/remotes/origin/main
     
     def setPos(self, x, y):
         self.posx = x

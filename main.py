@@ -178,7 +178,7 @@ def play_level(screen,player,camera):
 
         # Update camera
         camera.update(player)
-        screen.blit(camera.space_surface, (round(camera.px),round(camera.py)))
+        screen.blit(camera.space, (round(camera.px),round(camera.py)))
 
         # Draw player
         screen.blit(player.image, player.rect)
