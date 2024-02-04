@@ -5,8 +5,8 @@ import math
 
 # Add the missing import statement for screen_width and screen_height
 # Initialize screen_width and screen_height with appropriate values
-screen_width = 800
-screen_height = 600
+screen_width = 1500
+screen_height = 850
 
 import pygame
 def rot_center(image, angle):
@@ -19,7 +19,7 @@ def rot_center(image, angle):
     return rot_image
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, group):
         super().__init__()
         self.original_image = pygame.image.load('Player.webp').convert_alpha()  # Load player image
         self.image = pygame.transform.scale(self.original_image, (75, 75))
@@ -49,9 +49,16 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.velocity_y
 
         # Keep the player on the screen
-        self.rect.x = max(0, min(self.rect.x, 800 - self.rect.width))
-        self.rect.y = max(0, min(self.rect.y, 600 - self.rect.height))
+        self.rect.x = max(0, min(self.rect.x, 1500 - self.rect.width))
+        self.rect.y = max(0, min(self.rect.y, 850 - self.rect.height))
+        self.check_border_collision()
     
     def setPos(self, x, y):
         self.rect.x = x
         self.rect.y = y
+
+    def check_border_collision(self):
+        if self.rect.left <= 0 or self.rect.right >= screen_width:
+            self.velocity_x = 0
+        if self.rect.top <= 0 or self.rect.bottom >= screen_height:
+            self.velocity_y = 0

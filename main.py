@@ -1,6 +1,7 @@
 import pygame
 import sys
 from rocket import Player
+from camera import Camera
 import time
 import pygame.freetype
 from pygame.sprite import Sprite
@@ -85,20 +86,20 @@ def title_screen(screen,background):
     screen.blit(background, (0,0))
 
     uielement = UIElement(
-        center_position=(400, 200),
+        center_position=(800, 400),
         font_size=40,
         text_rgb=WHITE,
         text="Welcome to Nebula Navigators",
     )
     start_btn = UIElement(
-        center_position=(400, 400),
+        center_position=(800, 500),
         font_size=30,
         text_rgb=WHITE,
         text="Start Game",
         action=GameState.NEWGAME,
     )
     quit_btn = UIElement(
-        center_position=(400, 500),
+        center_position=(800, 600),
         font_size=30,
         text_rgb=WHITE,
         text="Quit Game",
@@ -129,9 +130,9 @@ def title_screen(screen,background):
 
         pygame.display.flip()
 
-def play_level(screen,player,background):
+def play_level(screen,player,camera):
     return_btn = UIElement(
-        center_position=(140, 570),
+        center_position=(140, 800),
         font_size=20,
         text_rgb=WHITE,
         text="Return to main menu",
@@ -169,8 +170,10 @@ def play_level(screen,player,background):
         # Clear the screen
         screen.fill(BLACK)
 
-        # Draw background
-        screen.blit(background, (0,0))
+        # Update camera
+        camera.update()
+        camera.cdraw(player)
+
         # Draw player
         screen.blit(player.image, player.rect)
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
@@ -198,18 +201,22 @@ ACCELERATION = 1
 def Main():
     pygame.init()
     clock = pygame.time.Clock() #adds clock
-    screen = pygame.display.set_mode((800, 600))
+    screen = pygame.display.set_mode((1600, 1200), pygame.RESIZABLE)
     pygame.display.set_caption('Nebula Navigators')
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
     background = pygame.image.load('Background.png')
     nebula = pygame.image.load('nebula.jpg')
+    nebula = pygame.transform.scale(nebula, (1600, 1200))
     background = pygame.transform.scale(background, (2000, 2000))
     game_state = GameState.TITLE
 
+
+    # Create camera
+    camera = Camera()
     
     # Create player object
-    player = Player()
+    player = Player(camera)
     # create a ui element
 
 
@@ -227,7 +234,7 @@ def Main():
             game_state = title_screen(screen,nebula)
 
         if game_state == GameState.NEWGAME:
-            game_state = play_level(screen,player,background)
+            game_state = play_level(screen,player,camera)
 
         if game_state == GameState.QUIT:
             pygame.quit()
