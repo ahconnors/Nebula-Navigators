@@ -25,12 +25,14 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.original_image, (75, 75))
         self.cleanImage=self.image
         self.rect = self.image.get_rect()
-        self.rect.center = (400, 300)  # Start position
+        self.rect.center = (800, 600)  # Start position
         self.velocity_x = 0
         self.velocity_y = 0
         self.acceleration_x = 0
         self.acceleration_y = 0
         self.angle= (math.pi)/2
+        self.posx=0
+        self.posy=0 
         
     def accelerate(self, rot, acceleration):
         self.angle += rot 
@@ -45,12 +47,10 @@ class Player(pygame.sprite.Sprite):
 
 
         # Update position based on velocity
-        self.rect.x += self.velocity_x
-        self.rect.y += self.velocity_y
+        self.posx += self.velocity_x
+        self.posy += self.velocity_y
 
         # Keep the player on the screen
-        self.rect.x = max(0, min(self.rect.x, 1500 - self.rect.width))
-        self.rect.y = max(0, min(self.rect.y, 850 - self.rect.height))
         self.check_border_collision()
     
     def setPos(self, x, y):
