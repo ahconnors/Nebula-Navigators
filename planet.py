@@ -13,18 +13,18 @@ def create_multicolored_circle(radius):
     base_color = (R, G, B)
     pygame.draw.circle(surface, base_color, (radius, radius), radius)
     i=0
-    while(i<200):
-        x=random.randint(-round(radius*7.5/10),round(radius*7.5/10))
-        y=random.uniform(-math.sqrt(radius*radius*60/100-x*x),math.sqrt(radius*radius*60/100-x*x))
+    while(i<500):
+        x=random.randint(-round(radius*14/15),round(radius*14/15))
+        y=random.uniform(-math.sqrt(abs(radius*radius*(196/225)-(x*x))),math.sqrt(abs(radius*radius*(196/225)-(x*x))))
         j=0
         r=R+random.randint(-15,15)
         b=B+random.randint(-15,15)
         g=G+random.randint(-15,15)
-        while(j<20):
-            if(x*x+y*y>(radius*radius-radius/10)):
-                x+=-x/abs(x)*radius/9
-                y+=-y/abs(y)*radius/9
-            pygame.draw.circle(surface, (r,g,b), (radius+x, round(y)+radius), radius/10 )
+        while(j<30):
+            if(x*x+y*y>((radius-radius/15)**2)and x!=0 and y!=0):
+                x+=-x/abs(x)*radius/10
+                y+=-y/abs(y)*radius/10
+            pygame.draw.circle(surface, (r,g,b), (radius+x, round(y)+radius), radius/15 )
             x+=random.randint(-3,3)
             y+=random.randint(-3,3)
             j+=1
@@ -75,11 +75,9 @@ class Planet:
             self.x_collision = self.centerx - self.x
             self.y_collision= -(self.centery - self.y)
             self.landed = True
-            print("Landed")
         else:
             self.landed = False
-            print("Not landed")
-        return distance < self.radius + player.rect.width / 2
+        return distance < self.radius + player.rect.width / 2 
 
     def handle_collision(self, player):
 

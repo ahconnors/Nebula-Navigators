@@ -26,11 +26,11 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
 Planetlist= []
-i=random.randint(10,15)
+i=random.randint(20,25)
 j=i
 while(i>0):
 
-    Planetlist.append(Planet(random.randint(-19000+round(37000*(j-i)/j),-18000+round(37000*(j-i)/j)),random.randint(-9000,9000),random.randint(200,850),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,300)))
+    Planetlist.append(Planet(random.randint(-19000+round(37000*(j-i)/j),-19000+round(37000*(j-i+2)/j)),random.randint(-9000,9000),random.randint(200,850),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,300)))
     i+=-1
 
 def create_surface_with_text(text, font_size, text_rgb):
@@ -109,20 +109,20 @@ def out_of_water_screen(screen,background, screen_width, screen_height):
     screen.blit(background, (0,0))
 
     uielement = UIElement(
-        center_position=(800, screen_height - 600),
+        center_position=(screen_width/2, screen_height - 600),
         font_size=40,
         text_rgb=WHITE,
         text="You are out of water",
     )
     start_btn = UIElement(
-        center_position=(800, screen_height - 500),
+        center_position=(screen_width/2, screen_height - 500),
         font_size=30,
         text_rgb=WHITE,
         text="Return to main menu",
         action=GameState.TITLE,
     )
     quit_btn = UIElement(
-        center_position=(800, screen_height - 400),
+        center_position=(screen_width/2, screen_height - 400),
         font_size=30,
         text_rgb=WHITE,
         text="Quit Game",
@@ -157,20 +157,20 @@ def out_of_food_screen(screen,background, screen_width, screen_height):
     screen.blit(background, (0,0))
 
     uielement = UIElement(
-        center_position=(800, screen_height - 600),
+        center_position=(screen_width/2, screen_height - 600),
         font_size=40,
         text_rgb=WHITE,
         text="You are out of food",
     )
     start_btn = UIElement(
-        center_position=(800, screen_height - 500),
+        center_position=(screen_width/2, screen_height - 500),
         font_size=30,
         text_rgb=WHITE,
         text="Return to main menu",
         action=GameState.TITLE,
     )
     quit_btn = UIElement(
-        center_position=(800, screen_height - 400),
+        center_position=(screen_width/2, screen_height - 400),
         font_size=30,
         text_rgb=WHITE,
         text="Quit Game",
@@ -204,20 +204,20 @@ def out_of_fuel_screen(screen,background, screen_width, screen_height):
     screen.blit(background, (0,0))
 
     uielement = UIElement(
-        center_position=(800, screen_height - 600),
+        center_position=(screen_width/2, screen_height - 600),
         font_size=40,
         text_rgb=WHITE,
         text="You are out of fuel",
     )
     start_btn = UIElement(
-        center_position=(800, screen_height - 500),
+        center_position=(screen_width/2, screen_height - 500),
         font_size=30,
         text_rgb=WHITE,
         text="Return to main menu",
         action=GameState.TITLE,
     )
     quit_btn = UIElement(
-        center_position=(800, screen_height - 400),
+        center_position=(screen_width/2, screen_height - 400),
         font_size=30,
         text_rgb=WHITE,
         text="Quit Game",
@@ -247,6 +247,7 @@ def out_of_fuel_screen(screen,background, screen_width, screen_height):
             button.draw(screen)
 
         pygame.display.flip()
+
 
 def title_screen(screen,background, resX, resY):
     screen.blit(background, (0,0))
@@ -307,6 +308,30 @@ def play_level(screen,player,camera, resX, resY):
         text="Return to main menu",
         action=GameState.TITLE,
     )
+    fuel_notif = UIElement(
+        center_position=(800, resY * 0.95),
+        font_size=40,
+        text_rgb=WHITE,
+        text="Almost out of fuel! 25% left.",
+    )
+    fuel_notif = UIElement(
+        center_position=(800, resY * 0.95),
+        font_size=40,
+        text_rgb=WHITE,
+        text="Almost out of fuel! 25% left.",
+    )
+    water_notif = UIElement(
+        center_position=(800, resY * 0.95),
+        font_size=40,
+        text_rgb=WHITE,
+        text="Almost out of water! 25% left.",
+    )
+    oxygen_notif = UIElement(
+        center_position=(800, resY * 0.95),
+        font_size=40,
+        text_rgb=WHITE,
+        text="Almost out of oxygen! 25% left.",
+    )
     
     repair_txt = UIElement(
         center_position=(resX * 0.80, 40),
@@ -352,10 +377,11 @@ def play_level(screen,player,camera, resX, resY):
         da = - keys[pygame.K_UP]
         r = keys[pygame.K_r]
         
-        if(player.acceleration_x != 0 or player.acceleration_y != 0):
-            sound2.play()
-        elif(player.acceleration_x == 0 and player.acceleration_y == 0):
-            sound2.stop()
+       # if(player.acceleration_x != 0 or player.acceleration_y != 0):
+            #sound2.play()
+            
+        #el(player.acceleration_x == 0 and player.acceleration_y == 0):
+            #sound2.stop()
 
         # Check if fuel is being used
         if(da != 0):
@@ -367,6 +393,9 @@ def play_level(screen,player,camera, resX, resY):
             pygame.mixer.music.pause()
         if(fuel_bar.value <= 0):
             return GameState.NOFUEL
+        
+
+        
 
         # Apply acceleration
         rot = dt * ROT
@@ -413,6 +442,13 @@ def play_level(screen,player,camera, resX, resY):
             if ui_action is not None:
                 return ui_action
         return_btn.draw(screen)
+        if(fuel_bar.value < 25):
+            fuel_notif.draw(screen)
+        if(water_bar.value < 25):
+            water_notif.draw(screen)
+        if(oxygen_bar.value < 25):
+            oxygen_notif.draw(screen)
+        
         if(player.landed and steel_bar.value >= 100 and health_bar.value < 100):
             repair_txt.draw(screen)
             if(r):
