@@ -21,8 +21,10 @@ class Player(pygame.sprite.Sprite):
       #  self.cleanImage=self.lit_image
    # def unflame(self):
         #self.cleanImage=self.original_image
-    def __init__(self):
+    def __init__(self,resX,resY):
         super().__init__()
+        self.resX = resX
+        self.resY = resY
         self.original_image = pygame.image.load('Player.webp').convert_alpha()  # Load player image
         #self.lit_image = pygame.image.load('Player.webp').convert_alpha()
         self.original_image = pygame.transform.scale(self.original_image, (75, 75))
@@ -30,7 +32,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.original_image
         self.cleanImage=self.original_image
         self.rect = self.original_image.get_rect()
-        self.rect.center = (750, 425)  # Start position
+        self.rect.center = (resX/2, resY/2)  # Start position
         self.velocity_x = 0
         self.velocity_y = 0
         self.acceleration_x = 0
@@ -70,7 +72,16 @@ class Player(pygame.sprite.Sprite):
         self.posy += self.velocity_y
 
         # Check validity of position
-        #self.posx = max()
+        self.posx = max(-1000, self.posx - self.resX/2)
+        self.posx = min(1000, self.posx + self.resX/2)
+        self.posy = max(-5000, self.posy - self.resY/2)
+        self.posy = min(5000, self.posy + self.resY/2)
+        if(self.posx == -1000 or self.posx == 1000 or self.posy == -5000 or self.posy == 5000):
+            self.velocity_x = 0
+            self.velocity_y = 0
+            self.acceleration_x = 0
+            self.acceleration_y = 0
+
 
     
     def setPos(self, x, y):
