@@ -14,8 +14,8 @@ from materialBar import MaterialBar
 import pygame
 import random
 pygame.mixer.init()
-pygame.mixer.music.load("Thrusters.mp3")
-pygame.mixer.music.play(-1)
+sound1 = pygame.mixer.Sound("music.mp3")
+sound2 = pygame.mixer.Sound("Thrusters.mp3")
 pygame.mixer.music.pause()
 
 resX = 0
@@ -323,6 +323,10 @@ def play_level(screen,player,camera, resX, resY):
     steel_bar.setLabel("Steel")
 
     while True:
+        if(GameState != GameState.QUIT):
+            sound1.play()
+        else:
+            sound1.stop()
         clock = pygame.time.Clock() #adds clock
         mouse_up = False
         for event in pygame.event.get():
@@ -338,6 +342,10 @@ def play_level(screen,player,camera, resX, resY):
         dt = -keys[pygame.K_RIGHT] + keys[pygame.K_LEFT]
         da = - keys[pygame.K_UP]
         
+        if(player.acceleration_x != 0 or player.acceleration_y != 0):
+            sound2.play()
+        else if(player.acceleration_x == 0 and player.acceleration_y == 0):
+            sound2.stop()
 
         # Check if fuel is being used
         if(da != 0):
