@@ -6,19 +6,19 @@ def create_multicolored_circle(radius):
     surface = pygame.Surface((radius * 2, radius * 2), pygame.SRCALPHA)
 
     # Draw the base circle with a random color
-    R=random.randint(10, 245)
-    B=random.randint(10, 245)
-    G=random.randint(10, 245)
+    R=random.randint(15, 240)
+    B=random.randint(15, 240)
+    G=random.randint(15, 240)
     base_color = (R, G, B)
     pygame.draw.circle(surface, base_color, (radius, radius), radius)
     i=0
     while(i<200):
-        x=random.randint(-radius*7.5/10,radius*7.5/10)
+        x=random.randint(-round(radius*7.5/10),round(radius*7.5/10))
         y=random.uniform(-math.sqrt(radius*radius*60/100-x*x),math.sqrt(radius*radius*60/100-x*x))
         j=0
-        r=R+random.randint(-20,20)
-        b=B+random.randint(-20,20)
-        g=G+random.randint(-20,20)
+        r=R+random.randint(-15,15)
+        b=B+random.randint(-15,15)
+        g=G+random.randint(-15,15)
         while(j<20):
             if(x*x+y*y>(radius*radius-radius/10)):
                 x+=-x/abs(x)*radius/9
