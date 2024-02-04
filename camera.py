@@ -17,5 +17,5 @@ class Camera(pygame.sprite.Group):
 
     def update(self, player):
         # calculate scroll
-        self.px += -round((player.velocity_x)/10)
-        self.py += -round((player.velocity_y)/10)
+        self.px += -(player.velocity_x)/10
+        self.py += -(player.velocity_y)/10
