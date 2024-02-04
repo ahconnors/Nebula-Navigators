@@ -48,6 +48,7 @@ class Planet:
         self.hasWater = resources[2]
         self.hasSteel = resources[3]
         self.surface = create_multicolored_circle(radius)
+        self.landed = False
 
     def draw(self,screen, posx,posy,x,y):
         screen.blit(self.surface, ((self.resX/2)+self.x-self.radius-posx-40,(self.resY/2)+self.y-self.radius-posy-40))
@@ -62,6 +63,8 @@ class Planet:
         return self.x
     def retY(self):
         return self.y
+    def getLanded(self):
+        return self.landed
     
     def check_collision(self, player):
         self.centerx = (player.posx + player.rect.width / 2)
@@ -71,6 +74,9 @@ class Planet:
         if(distance < (self.radius + player.rect.width / 2)):
             self.x_collision = self.centerx - self.x
             self.y_collision= -(self.centery - self.y)
+            self.landed = True
+        else:
+            self.landed = False
         return distance < self.radius + player.rect.width / 2
 
     def handle_collision(self, player):
