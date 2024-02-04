@@ -12,7 +12,6 @@ from planet import Planet
 import math
 from materialBar import MaterialBar
 import pygame
-import random
 
 
 resX = 0
@@ -22,11 +21,7 @@ resY = 0
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
-Planetlist= []
-i=random.randint(10,15)
-while(i>0):
-    Planetlist.append(Planet(random.randint(-9000,9000),random.randint(-9000,9000),random.randint(200,1500),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,300)))
-    i+=-1
+Planetlist= [Planet(1000, 300, 150,[False,False, False,False], 25 )]
 
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
@@ -345,12 +340,26 @@ def play_level(screen,player,camera, resX, resY):
         # Apply acceleration
         rot = dt * ROT
         acceleration = da * ACCELERATION
-        G=750
+        G=500
         #notes for gravity calculation
+        
         closestPlanet = find_closest_planet(player, Planetlist)
         planetDistance = math.sqrt((player.posx - closestPlanet.retX())**2 + (player.posy - closestPlanet.retY())**2)
         planetAngle = math.atan2((player.posy+player.rect.height / 2  - closestPlanet.retY()), (player.posx+player.rect.width / 2 - closestPlanet.retX()))
+        print(planetAngle)
+        print(player.velocity_x, player.velocity_y) 
         gravity =G*closestPlanet.mass/(planetDistance ** 2)
+
+        if(closestPlanet.getLanded()):
+            player.landed = True
+            player.velocity_x = 0
+            player.velocity_y = 0
+            player.acceleration_x = 0
+            player.acceleration_y = 0
+            player.gettingFuel = closestPlanet.hasFuel
+            player.gettingOxygen = closestPlanet.hasOxygen
+            player.gettingWater = closestPlanet.hasWater
+            player.gettingSteel = closestPlanet.hasSteel
 
         # Update player velocity based on acceleration
         player.accelerate(rot, acceleration,gravity ,planetAngle)
@@ -466,28 +475,9 @@ def Main():
 
 
         if game_state == GameState.TITLE:
-            monitor = ""
-            for m in get_monitors():
-                monitor = str(m)
-                break
-            resX = (int)(monitor[monitor.find("width=") + 6 : monitor.find(",", monitor.find("width="))])
-            resY = (int)(monitor[monitor.find("height=") + 7 : monitor.find(",", monitor.find("height="))])
-            screen = pygame.display.set_mode((resX, resY), pygame.RESIZABLE)
-
-            
             game_state = title_screen(screen,nebula, resX, resY)
 
         if game_state == GameState.NEWGAME:
-            # Create camera
-            camera = Camera()
-            
-            # Create player object
-            player = Player(resX, resY)
-            # create a ui element
-            for planet in Planetlist:
-                planet.getRez(resX,resY)
-
-
             game_state = play_level(screen,player,camera, resX, resY)
 
         if game_state == GameState.QUIT:
