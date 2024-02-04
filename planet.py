@@ -20,17 +20,18 @@ class Planet:
         pass
 
     def check_collision(self, player):
-        self.centerx = player.rect.x + player.rect.width / 2
-        self.centery = player.rect.y + player.rect.height / 2
+        self.centerx = (player.rect.x + player.rect.width / 2)
+        self.centery = (player.rect.y + player.rect.height / 2)
         distance = ((self.x - self.centerx) ** 2 + (self.y - self.centery) ** 2) ** 0.5
         self.collisionRadius = distance
         if(distance < (self.radius + player.rect.width / 2)):
             self.x_collision = self.centerx - self.x
             self.y_collision= -(self.centery - self.y)
-            print(self.x_collision, self.y_collision)
         return distance < self.radius + player.rect.width / 2
 
     def handle_collision(self, player):
+        if()
+
         collisionAngle = math.atan2(self.y_collision, self.x_collision)
     
         # Ensure the angle is in the range [0, 2*pi)
