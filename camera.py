@@ -10,7 +10,7 @@ class Camera(pygame.sprite.Group):
         self.py = 300
 
         # space
-        image = pygame.image.load('Background.png')
+        image = pygame.image.load('rainbow.png')
         image = pygame.transform.scale(image, (5000, 4000))
         self.space_surface = image.convert_alpha()
         self.space_rect = self.space_surface.get_rect(topleft = (0,0))
@@ -28,4 +28,4 @@ class Camera(pygame.sprite.Group):
         player.rect.y = self.py
 
         # update surface
-        self.display_surface.blit(self.space_surface, [scrollx, scrolly])
+        self.display_surface.blit(self.space_surface, self.space_rect)
