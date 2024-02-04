@@ -83,24 +83,24 @@ class UIElement(Sprite):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
 
-def title_screen(screen,background):
+def title_screen(screen,background, screen_width, screen_height):
     screen.blit(background, (0,0))
 
     uielement = UIElement(
-        center_position=(800, 400),
+        center_position=(800, screen_height - 400),
         font_size=40,
         text_rgb=WHITE,
         text="Welcome to Nebula Navigators",
     )
     start_btn = UIElement(
-        center_position=(800, 500),
+        center_position=(800, screen_height - 300),
         font_size=30,
         text_rgb=WHITE,
         text="Start Game",
         action=GameState.NEWGAME,
     )
     quit_btn = UIElement(
-        center_position=(800, 600),
+        center_position=(800, screen_height - 200),
         font_size=30,
         text_rgb=WHITE,
         text="Quit Game",
@@ -131,9 +131,9 @@ def title_screen(screen,background):
 
         pygame.display.flip()
 
-def play_level(screen,player,camera):
+def play_level(screen,player,camera, screen_width, screen_height):
     return_btn = UIElement(
-        center_position=(180, 1000),
+        center_position=(180, screen_height - 50),
         font_size=20,
         text_rgb=WHITE,
         text="Return to main menu",
@@ -256,7 +256,6 @@ def Main():
     clock = pygame.time.Clock() #adds clock
     screen = pygame.display.set_mode((1600, 1200), pygame.RESIZABLE)
     screen_width, screen_height = screen.get_size()
-    print(screen_width, screen_height)
     pygame.display.set_caption('Nebula Navigators')
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
@@ -286,10 +285,10 @@ def Main():
 
 
         if game_state == GameState.TITLE:
-            game_state = title_screen(screen,nebula)
+            game_state = title_screen(screen,nebula, screen_width, screen_height)
 
         if game_state == GameState.NEWGAME:
-            game_state = play_level(screen,player,camera)
+            game_state = play_level(screen,player,camera, screen_width, screen_height)
 
         if game_state == GameState.QUIT:
             pygame.quit()
