@@ -43,6 +43,8 @@ class Player(pygame.sprite.Sprite):
         self.posx=0
         self.posy=0
         
+        self.takeDamage = False
+        self.repairing = False
         self.landed = False
         self.gettingFuel = False
         self.gettingOxygen = False

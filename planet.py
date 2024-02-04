@@ -81,6 +81,8 @@ class Planet:
 
     def handle_collision(self, player):
 
+        collisionSpeed = (player.velocity_x**2 + player.velocity_y**2)**0.5
+
         collisionAngle = math.atan2(self.y_collision, self.x_collision)
     
         # Ensure the angle is in the range [0, 2*pi)
@@ -98,6 +100,9 @@ class Planet:
         player.velocity_y = 0
         player.acceleration_x = 0
         player.acceleration_y = 0
+
+        if(collisionSpeed > 15):
+            player.takeDamage = True
         
         rocketAngle = player.angle % (2 * math.pi)
         if(rocketAngle >= 0.95*collisionAngle and rocketAngle <= 1.05*collisionAngle):
