@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
       #  self.cleanImage=self.lit_image
    # def unflame(self):
         #self.cleanImage=self.original_image
-    def __init__(self):
+    def __init__(self,resX,resY):
         super().__init__()
         self.original_image = pygame.image.load('Player.webp').convert_alpha()  # Load player image
         #self.lit_image = pygame.image.load('Player.webp').convert_alpha()
@@ -30,7 +30,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.original_image
         self.cleanImage=self.original_image
         self.rect = self.original_image.get_rect()
-        self.rect.center = (750, 425)  # Start position
+        self.rect.center = (resX/2, resY/2)  # Start position
         self.velocity_x = 0
         self.velocity_y = 0
         self.acceleration_x = 0
