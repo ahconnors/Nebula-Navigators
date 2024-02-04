@@ -17,18 +17,18 @@ def rot_center(image, angle):
 
 
 class Player(pygame.sprite.Sprite):
-    #def flame(self):
-      #  self.cleanImage=self.lit_image
-   # def unflame(self):
-        #self.cleanImage=self.original_image
+    def flame(self):
+        self.cleanImage=self.lit_image
+    def unflame(self):
+        self.cleanImage=self.original_image
     def __init__(self,resX,resY):
         super().__init__()
         self.resX = resX
         self.resY = resY
         self.original_image = pygame.image.load('Player.webp').convert_alpha()  # Load player image
-        #self.lit_image = pygame.image.load('Player.webp').convert_alpha()
+        self.lit_image = pygame.image.load('litRocket.png')
         self.original_image = pygame.transform.scale(self.original_image, (75, 75))
-        #self.lit_image = pygame.transform.scale(self.lit_image, (25, 75))
+        self.lit_image = pygame.transform.scale(self.lit_image, (75, 75))
         self.image = self.original_image
         self.cleanImage=self.original_image
         self.rect = self.original_image.get_rect()
@@ -50,7 +50,13 @@ class Player(pygame.sprite.Sprite):
         self.gettingSteel = False
     
 
+<<<<<<< Updated upstream
     def accelerate(self, rot, acceleration, gravity, theta):
+=======
+    def accelerate(self, rot, acceleration):
+        if (self.acceleration_x>0 or self.acceleration_y>0):
+            self.flame()
+>>>>>>> Stashed changes
         self.angle += rot 
         self.image = rot_center(self.cleanImage, (self.angle * 180 / math.pi) - 90)
         self.acceleration_x = -acceleration * math.cos(self.angle)+ gravity*math.cos(theta)
@@ -64,8 +70,8 @@ class Player(pygame.sprite.Sprite):
         self.velocity_x += self.acceleration_x
         self.velocity_y += self.acceleration_y
         
-        #if(self.acceleration_x == 0 and self.acceleration_y == 0):
-            #self.unflame()
+        if(self.acceleration_x == 0 and self.acceleration_y == 0):
+            self.unflame()
 
         # Update position based on velocity
         self.posx += self.velocity_x
