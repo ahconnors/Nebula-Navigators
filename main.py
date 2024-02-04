@@ -21,7 +21,7 @@ resY = 0
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
-Planetlist= [Planet(1000, 300, 4000,[False,False, False,False] ),Planet(400, -300, 1000,[False,False, False,False]  ),Planet(-400, 300, 1000 ,[False,False, False,False] )]
+Planetlist= [Planet(1000, 300, 4000,[False,False, False,False], 100 )]
 
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
@@ -336,15 +336,15 @@ def play_level(screen,player,camera, resX, resY):
         # Apply acceleration
         rot = dt * ROT
         acceleration = da * ACCELERATION
-
+        G=100
         #notes for gravity calculation
         closestPlanet = find_closest_planet(player, Planetlist)
         planetDistance = math.sqrt((player.posx - closestPlanet.retX())**2 + (player.posy - closestPlanet.retY())**2)
         planetAngle = math.atan2((player.posy - closestPlanet.retY()), (player.posx - closestPlanet.retX()))
-
+        gravity =G*closestPlanet.mass/(planetDistance ** 2)
 
         # Update player velocity based on acceleration
-        player.accelerate(rot, acceleration)
+        player.accelerate(rot, acceleration,gravity ,planetAngle)
 
         # Update player position
         player.update()

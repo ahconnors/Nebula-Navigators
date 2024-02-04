@@ -42,6 +42,7 @@ class Planet:
         self.centery = 0
         self.resX=0
         self.resY=0
+        self.mass=mass
         self.hasFuel = resources[0]
         self.hasOxygen = resources[1]
         self.hasWater = resources[2]
