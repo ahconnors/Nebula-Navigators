@@ -183,7 +183,10 @@ def play_level(screen,player,camera):
         # Draw player
         screen.blit(player.image, player.rect)
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
-        planet.draw(screen, 400,400)
+
+        planet.updatePos(player.velocity_x, player.velocity_y)
+        planet.draw(screen, planet.retX() *(-2) , planet.retY() * (-2))
+
         if(planet.check_collision(player)):
             planet.handle_collision(player)
         if ui_action is not None:

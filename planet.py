@@ -47,6 +47,15 @@ class Planet:
     def update(self):
         pass
 
+    def updatePos(self, velocityx, velocityy):
+        self.x += velocityx
+        self.y += velocityy
+
+    def retX(self):
+        return self.x
+    def retY(self):
+        return self.y
+    
     def check_collision(self, player):
         self.centerx = (player.rect.x + player.rect.width / 2)
         self.centery = (player.rect.y + player.rect.height / 2)
