@@ -3,7 +3,7 @@ import pygame
 class MaterialBar():
     def __init__(self, x, y, max, color):
         self.x = x
-        self.y = y + 100
+        self.y = y
         self.w = 100
         self.h = 20
         self.max = max
