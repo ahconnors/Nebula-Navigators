@@ -64,6 +64,10 @@ class Planet:
         # Ensure the angle is in the range [0, 2*pi)
         collisionAngle %= (2 * math.pi)
         print(collisionAngle)
+
+        rocketAngle = player.angle % (2 * math.pi)
+        if(rocketAngle >= 0.95*collisionAngle and rocketAngle <= 1.05*collisionAngle):
+            player.angle = collisionAngle
     
         # Adjust angle for negative values
         # if self.y_collision < 0 and self.x_collision < 0:

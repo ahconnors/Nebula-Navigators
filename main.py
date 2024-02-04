@@ -9,6 +9,7 @@ from pygame.rect import Rect
 from enum import Enum
 from planet import Planet
 import math
+from materialBar import MaterialBar
 
 
 # Define colors
@@ -139,6 +140,12 @@ def play_level(screen,player,camera):
         action=GameState.TITLE,
     )
 
+    health_bar = MaterialBar(20, 20, 200, 30, 100, (0, 255, 0))
+    health_bar.setValue(100)
+    health_bar.draw(screen)
+    fuel_bar = MaterialBar(20, 60, 200, 30, 100, (255, 255, 0))
+    fuel_bar.setValue(100)
+    fuel_bar.draw(screen)
 
     while True:
         clock = pygame.time.Clock() #adds clock
