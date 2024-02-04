@@ -21,8 +21,8 @@ resY = 0
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
+Planetlist= [Planet(400, 300, 100,[False,False, False,False] ),Planet(400, -300, 100,[False,False, False,False]  ),Planet(-400, 300, 100 ,[False,False, False,False] )]
 
-Planetlist= [Planet(400, 300, 100 ),Planet(400, -300, 100 ),Planet(-400, 300, 100 )]
 
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
@@ -246,7 +246,7 @@ def play_level(screen,player,camera, resX, resY):
         # Update camera
         camera.update(player)
         screen.blit(camera.space, (round(camera.px),round(camera.py)))
-
+        
         # Draw player
         screen.blit(player.image, player.rect)
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
@@ -312,7 +312,6 @@ def Main():
         break
     resX = (int)(monitor[monitor.find("width=") + 6 : monitor.find(",", monitor.find("width="))])
     resY = (int)(monitor[monitor.find("height=") + 7 : monitor.find(",", monitor.find("height="))])
-
     pygame.init()
     clock = pygame.time.Clock() #adds clock
     screen = pygame.display.set_mode((resX, resY), pygame.RESIZABLE)
@@ -330,6 +329,8 @@ def Main():
     # Create player object
     player = Player(resX, resY)
     # create a ui element
+    for planet in Planetlist:
+        planet.getRez(resX,resY)
 
 
     # main loop

@@ -31,7 +31,7 @@ def create_multicolored_circle(radius):
         i+=1
     return surface
 class Planet:
-    def __init__(self, x, y, radius, resources = [False, False, False, False]):
+    def __init__(self, x, y, radius, resources):
         self.x = x
         self.y = y
         self.radius = radius
@@ -40,6 +40,8 @@ class Planet:
         self.collisionRadius = 0
         self.centerx = 0
         self.centery = 0
+        self.resX=0
+        self.resY=0
         self.hasFuel = resources[0]
         self.hasOxygen = resources[1]
         self.hasWater = resources[2]
@@ -47,12 +49,14 @@ class Planet:
         self.surface = create_multicolored_circle(radius)
 
     def draw(self,screen, posx,posy,x,y):
-        screen.blit(self.surface, (760+self.x-self.radius-posx,560+self.y-self.radius-posy))
+        screen.blit(self.surface, ((self.resX/2)+self.x-self.radius-posx-40,(self.resY/2)+self.y-self.radius-posy-40))
         
     def update(self):
         pass
 
-
+    def getRez(self,resx,resy):
+        self.resX=resx
+        self.resY=resy
     def retX(self):
         return self.x
     def retY(self):
