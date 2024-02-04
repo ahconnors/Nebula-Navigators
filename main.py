@@ -85,20 +85,20 @@ def title_screen(screen,background):
     screen.blit(background, (0,0))
 
     uielement = UIElement(
-        center_position=(400, 200),
+        center_position=(800, 400),
         font_size=40,
         text_rgb=WHITE,
         text="Welcome to Nebula Navigators",
     )
     start_btn = UIElement(
-        center_position=(400, 400),
+        center_position=(800, 500),
         font_size=30,
         text_rgb=WHITE,
         text="Start Game",
         action=GameState.NEWGAME,
     )
     quit_btn = UIElement(
-        center_position=(400, 500),
+        center_position=(800, 600),
         font_size=30,
         text_rgb=WHITE,
         text="Quit Game",
@@ -131,7 +131,7 @@ def title_screen(screen,background):
 
 def play_level(screen,player,background):
     return_btn = UIElement(
-        center_position=(140, 570),
+        center_position=(140, 800),
         font_size=20,
         text_rgb=WHITE,
         text="Return to main menu",
@@ -198,12 +198,13 @@ ACCELERATION = 1
 def Main():
     pygame.init()
     clock = pygame.time.Clock() #adds clock
-    screen = pygame.display.set_mode((800, 600))
+    screen = pygame.display.set_mode((1600, 1200), pygame.RESIZABLE)
     pygame.display.set_caption('Nebula Navigators')
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
     background = pygame.image.load('Background.png')
     nebula = pygame.image.load('nebula.jpg')
+    nebula = pygame.transform.scale(nebula, (1600, 1200))
     background = pygame.transform.scale(background, (2000, 2000))
     game_state = GameState.TITLE
 
