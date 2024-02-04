@@ -336,6 +336,9 @@ def play_level(screen,player,camera, resX, resY):
         # Check if fuel is being used
         if(da != 0):
             fuel_bar.setValue(fuel_bar.value - 0.1)
+            player.flame()
+        else:
+            player.unflame()
         if(fuel_bar.value <= 0):
             return GameState.NOFUEL
 
@@ -386,10 +389,7 @@ def play_level(screen,player,camera, resX, resY):
         if(player.velocity_x > 0 and player.velocity_y > 0):
             player.landed = False
 
-        if(player.acceleration_x > 0 or player.acceleration_y>0):
-            player.flame()
-        if(acceleration == 0):
-            player.unflame()
+        
                
         if(player.gettingOxygen):
             oxygen_bar.setValue(oxygen_bar.value + 0.1)

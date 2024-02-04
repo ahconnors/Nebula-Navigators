@@ -61,11 +61,6 @@ class Player(pygame.sprite.Sprite):
 
         # Scale the image to keep it consistent with the size of the original image
 
-    def fire(self):
-        if (self.acceleration_x!=0 or self.acceleration_y!=0):
-            self.flame()
-        if(self.acceleration_x == 0 and self.acceleration_y == 0):
-            self.unflame()
     
     def update(self):
         self.velocity_x += self.acceleration_x
