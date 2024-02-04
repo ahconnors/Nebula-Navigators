@@ -151,16 +151,16 @@ def play_level(screen,player,background):
 
 
         keys = pygame.key.get_pressed()
-        dt = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
-        da = keys[pygame.K_DOWN] - keys[pygame.K_UP]
+        dt = -keys[pygame.K_RIGHT] + keys[pygame.K_LEFT]
+        da = - keys[pygame.K_UP]
 
         # Apply acceleration
-        acceleration_x = dt * ACCELERATION_X
-        acceleration_y = da * ACCELERATION_Y
+        rot = dt * ROT
+        acceleration = da * ACCELERATION
 
 
         # Update player velocity based on acceleration
-        player.accelerate(acceleration_x, acceleration_y)
+        player.accelerate(rot, acceleration)
 
         # Update player position
         player.update()
@@ -191,8 +191,8 @@ class GameState(Enum):
 
 
 # Define acceleration constants
-ACCELERATION_X = 1
-ACCELERATION_Y = 1
+ROT = .1
+ACCELERATION = 1
 
 def Main():
     pygame.init()
