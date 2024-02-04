@@ -172,11 +172,13 @@ def play_level(screen,player,camera):
         dt = -keys[pygame.K_RIGHT] + keys[pygame.K_LEFT]
         da = - keys[pygame.K_UP]
 
+        # Check if fuel is being used
+        if(da != 0):
+            fuel_bar.setValue(fuel_bar.value - 0.1)
 
         # Apply acceleration
         rot = dt * ROT
         acceleration = da * ACCELERATION
-
 
         # Update player velocity based on acceleration
         player.accelerate(rot, acceleration)
@@ -253,6 +255,8 @@ def Main():
     pygame.init()
     clock = pygame.time.Clock() #adds clock
     screen = pygame.display.set_mode((1600, 1200), pygame.RESIZABLE)
+    screen_width, screen_height = screen.get_size()
+    print(screen_width, screen_height)
     pygame.display.set_caption('Nebula Navigators')
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
