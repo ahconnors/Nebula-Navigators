@@ -133,7 +133,7 @@ def title_screen(screen,background):
 
 def play_level(screen,player,camera):
     return_btn = UIElement(
-        center_position=(140, 800),
+        center_position=(180, 1000),
         font_size=20,
         text_rgb=WHITE,
         text="Return to main menu",
