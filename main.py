@@ -250,6 +250,9 @@ def out_of_fuel_screen(screen,background, screen_width, screen_height):
 
 def title_screen(screen,background, resX, resY):
     screen.blit(background, (0,0))
+    pygame.mixer.music.load("music.mp3")
+    pygame.mixer.music.play(-1)
+
 
     uielement = UIElement(
         center_position=(resX / 2, resY - 600),
@@ -463,7 +466,6 @@ def Main():
     nebula = pygame.transform.scale(nebula, (resX, resY))
     game_state = GameState.TITLE
 
-
     # Create camera
     camera = Camera()
     
@@ -472,6 +474,8 @@ def Main():
     # create a ui element
     for planet in Planetlist:
         planet.getRez(resX,resY)
+    
+
 
 
     # main loop
