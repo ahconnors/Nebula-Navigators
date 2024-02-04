@@ -133,7 +133,7 @@ def title_screen(screen,background):
 
 def play_level(screen,player,camera):
     return_btn = UIElement(
-        center_position=(140, 800),
+        center_position=(180, 1000),
         font_size=20,
         text_rgb=WHITE,
         text="Return to main menu",
@@ -189,12 +189,15 @@ def play_level(screen,player,camera):
 
         # Update camera
         camera.update(player)
-        screen.blit(camera.space_surface, (round(camera.px),round(camera.py)))
+        screen.blit(camera.space, (round(camera.px),round(camera.py)))
 
         # Draw player
         screen.blit(player.image, player.rect)
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
-        planet.draw(screen, 400,400)
+
+        planet.updatePos(player.velocity_x, player.velocity_y)
+        planet.draw(screen, planet.retX() *(-.25) , planet.retY() * (-.25))
+
         if(planet.check_collision(player)):
             planet.handle_collision(player)
         if ui_action is not None:
