@@ -79,7 +79,6 @@ class Planet:
     
         # Ensure the angle is in the range [0, 2*pi)
         collisionAngle %= (2 * math.pi)
-        print(collisionAngle)
     
         # Calculate the new position
         new_x = self.x + ((self.radius + (player.rect.width / 2)) * math.cos(collisionAngle)) - (player.rect.width / 2)
