@@ -1,20 +1,48 @@
 import pygame
 import sys
 import math
+import random
+def create_multicolored_circle(radius):
+    surface = pygame.Surface((radius * 2, radius * 2), pygame.SRCALPHA)
+
+    # Draw the base circle with a random color
+    R=random.randint(15, 240)
+    B=random.randint(15, 240)
+    G=random.randint(15, 240)
+    base_color = (R, G, B)
+    pygame.draw.circle(surface, base_color, (radius, radius), radius)
+    i=0
+    while(i<200):
+        x=random.randint(-round(radius*7.5/10),round(radius*7.5/10))
+        y=random.uniform(-math.sqrt(radius*radius*60/100-x*x),math.sqrt(radius*radius*60/100-x*x))
+        j=0
+        r=R+random.randint(-15,15)
+        b=B+random.randint(-15,15)
+        g=G+random.randint(-15,15)
+        while(j<20):
+            if(x*x+y*y>(radius*radius-radius/10)):
+                x+=-x/abs(x)*radius/9
+                y+=-y/abs(y)*radius/9
+            pygame.draw.circle(surface, (r,g,b), (radius+x, round(y)+radius), radius/10 )
+            x+=random.randint(-3,3)
+            y+=random.randint(-3,3)
+            j+=1
+        i+=1
+    return surface
 class Planet:
-    def __init__(self, x, y, radius, color):
+    def __init__(self, x, y, radius):
         self.x = x
         self.y = y
         self.radius = radius
-        self.color = color
         self.x_collision = 0
         self.y_collision = 0
         self.collisionRadius = 0
         self.centerx = 0
         self.centery = 0
+        self.surface = create_multicolored_circle(radius)
 
-    def draw(self, screen):
-        return pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+    def draw(self, screen,x,y):
+        screen.blit(self.surface, (x-self.radius, y-2*self.radius))
 
     def update(self):
         pass
