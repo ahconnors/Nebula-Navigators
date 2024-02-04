@@ -326,6 +326,7 @@ def play_level(screen,player,camera, resX, resY):
         keys = pygame.key.get_pressed()
         dt = -keys[pygame.K_RIGHT] + keys[pygame.K_LEFT]
         da = - keys[pygame.K_UP]
+        
 
         # Check if fuel is being used
         if(da != 0):
@@ -379,6 +380,11 @@ def play_level(screen,player,camera, resX, resY):
 
         if(player.velocity_x > 0 and player.velocity_y > 0):
             player.landed = False
+
+        if(player.acceleration_x > 0 or player.acceleration_y>0):
+            player.flame()
+        if(acceleration == 0):
+            player.unflame()
                
         if(player.gettingOxygen):
             oxygen_bar.setValue(oxygen_bar.value + 0.1)
@@ -469,8 +475,6 @@ def Main():
             game_state = out_of_food_screen(screen,nebula, resX, resY)
         if(game_state == GameState.WATER):
             game_state = out_of_water_screen(screen,nebula, resX, resY)
-
-        screen.fill(PURPLE)
 
         pygame.display.flip()
 
