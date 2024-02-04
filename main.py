@@ -21,13 +21,22 @@ resY = 0
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
-Planetlist= [Planet(1000, 300, 100,[False,False, False,False] ),Planet(400, -300, 100,[False,False, False,False]  ),Planet(-400, 300, 100 ,[False,False, False,False] )]
+Planetlist= [Planet(1000, 300, 400,[False,False, False,False] ),Planet(400, -300, 100,[False,False, False,False]  ),Planet(-400, 300, 100 ,[False,False, False,False] )]
 
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
     font = pygame.freetype.SysFont("Courier", font_size, bold=True)
     surface, _ = font.render(text=text, fgcolor=text_rgb)
     return surface.convert_alpha()
+
+def find_closest_planet(player, planetlist):
+    closest = planetlist[0]
+    for planet in planetlist:
+        if(math.sqrt((player.posx - planet.retX())**2 + (player.posy - planet.retY())**2) < math.sqrt((player.posx - closest.retX())**2 + (player.posy - closest.retY())**2)):
+            closest = planet
+    
+    return closest
+
 class UIElement(Sprite):
     """ An user interface element that can be added to a surface """
 
@@ -327,6 +336,12 @@ def play_level(screen,player,camera, resX, resY):
         # Apply acceleration
         rot = dt * ROT
         acceleration = da * ACCELERATION
+
+        #notes for gravity calculation
+        closestPlanet = find_closest_planet(player, Planetlist)
+        planetDistance = math.sqrt((player.posx - closestPlanet.retX())**2 + (player.posy - closestPlanet.retY())**2)
+        planetAngle = math.atan2((player.posy - closestPlanet.retY()), (player.posx - closestPlanet.retX()))
+
 
         # Update player velocity based on acceleration
         player.accelerate(rot, acceleration)
