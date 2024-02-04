@@ -57,8 +57,8 @@ class Player(pygame.sprite.Sprite):
         #     self.unflame()
         self.angle += rot 
         self.image = rot_center(self.cleanImage, (self.angle * 180 / math.pi) - 90)
-        self.acceleration_x = -acceleration * math.cos(self.angle)+ gravity*math.cos(theta)
-        self.acceleration_y = acceleration * math.sin(self.angle)- gravity*math.sin(theta)
+        self.acceleration_x = -acceleration * math.cos(self.angle)- gravity*math.cos(theta)
+        self.acceleration_y = acceleration * math.sin(self.angle)-gravity*math.sin(theta)
 
         # Check if either acceleration_x or acceleration_y is positive
 
@@ -79,14 +79,14 @@ class Player(pygame.sprite.Sprite):
         self.posy += self.velocity_y
 
         # Check validity of position]
-        self.posx = max(-5000, self.posx)
-        self.posx = min(5000, self.posx)
-        self.posy = max(-5000, self.posy)
-        self.posy = min(5000, self.posy)
-        if((self.posx <= -5000) or (self.posx >= 5000)):
+        self.posx = max(-10000, self.posx)
+        self.posx = min(10000, self.posx)
+        self.posy = max(-10000, self.posy)
+        self.posy = min(10000, self.posy)
+        if((self.posx <= -10000) or (self.posx >= 10000)):
             self.velocity_x = 0
             self.acceleration_x = 0
-        if((self.posy <= -5000) or (self.posy >= 5000)):
+        if((self.posy <= -10000) or (self.posy >= 10000)):
             self.velocity_y = 0
             self.acceleration_y = 0
         
