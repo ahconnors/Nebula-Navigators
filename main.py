@@ -11,6 +11,7 @@ from enum import Enum
 from planet import Planet
 import math
 from materialBar import MaterialBar
+import pygame
 
 
 resX = 0
@@ -86,6 +87,53 @@ class UIElement(Sprite):
     def draw(self, surface):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
+def out_of_fuel_screen(screen,background, screen_width, screen_height):
+    screen.blit(background, (0,0))
+
+    uielement = UIElement(
+        center_position=(800, screen_height - 400),
+        font_size=40,
+        text_rgb=WHITE,
+        text="You are out of fuel",
+    )
+    start_btn = UIElement(
+        center_position=(800, screen_height - 300),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Return to main menu",
+        action=GameState.TITLE,
+    )
+    quit_btn = UIElement(
+        center_position=(800, screen_height - 200),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Quit Game",
+        action=GameState.QUIT,
+    )
+
+    buttons = [uielement, start_btn, quit_btn]
+    
+
+    while True:
+
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
+        screen.blit(background, (0,0))
+
+
+        for button in buttons:
+            ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if ui_action is not None:
+                return ui_action
+            button.draw(screen)
+
+        pygame.display.flip()
 
 def title_screen(screen,background, resX, resY):
     screen.blit(background, (0,0))
@@ -179,6 +227,8 @@ def play_level(screen,player,camera, resX, resY):
         # Check if fuel is being used
         if(da != 0):
             fuel_bar.setValue(fuel_bar.value - 0.1)
+        if(fuel_bar.value <= 0):
+            return GameState.NOFUEL
 
         # Apply acceleration
         rot = dt * ROT
@@ -247,6 +297,7 @@ class GameState(Enum):
     QUIT = -1
     TITLE = 0
     NEWGAME = 1
+    NOFUEL = 2
 
 
 # Define acceleration constants
@@ -300,6 +351,8 @@ def Main():
         if game_state == GameState.QUIT:
             pygame.quit()
             return
+        if(game_state == GameState.NOFUEL):
+            game_state = out_of_fuel_screen(screen,nebula, resX, resY)
 
         screen.fill(PURPLE)
 
