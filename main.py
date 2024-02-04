@@ -381,6 +381,12 @@ def play_level(screen,player,camera, resX, resY):
         text_rgb=WHITE,
         text="Almost out of oxygen! 25% left.",
     )
+    health_notif = UIElement(
+        center_position=(800, resY * 0.95),
+        font_size=40,
+        text_rgb=WHITE,
+        text="Almost out of health! 25% left.",
+    )
     
     repair_txt = UIElement(
         center_position=(resX * 0.80, 40),
@@ -500,6 +506,8 @@ def play_level(screen,player,camera, resX, resY):
             water_notif.draw(screen)
         if(oxygen_bar.value < 25):
             oxygen_notif.draw(screen)
+        if(health_bar.value <= 25):
+            health_notif.draw(screen)
         
         if(player.landed and steel_bar.value >= 100 and health_bar.value < 100):
             repair_txt.draw(screen)
