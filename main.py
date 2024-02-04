@@ -21,7 +21,7 @@ resY = 0
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
-Planetlist= [Planet(1000, 300, 4000,[False,False, False,False], 100 )]
+Planetlist= [Planet(1000, 300, 400,[False,False, False,False], 100 )]
 
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
@@ -336,7 +336,7 @@ def play_level(screen,player,camera, resX, resY):
         # Apply acceleration
         rot = dt * ROT
         acceleration = da * ACCELERATION
-        G=100
+        G=1000
         #notes for gravity calculation
         closestPlanet = find_closest_planet(player, Planetlist)
         planetDistance = math.sqrt((player.posx - closestPlanet.retX())**2 + (player.posy - closestPlanet.retY())**2)
