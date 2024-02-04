@@ -5,10 +5,9 @@ class Camera(pygame.sprite.Group):
         super().__init__()
         self.display_surface = pygame.display.get_surface()
 
-        # camera offset
-        self.offset = pygame.math.Vector2()
-        self.half_width = self.display_surface.get_width() / 2
-        self.half_height = self.display_surface.get_height() / 2
+        # starting point for rocket
+        self.px = 400
+        self.py = 300
 
         # space
         image = pygame.image.load('Background.png')
@@ -16,13 +15,17 @@ class Camera(pygame.sprite.Group):
         self.space_surface = image.convert_alpha()
         self.space_rect = self.space_surface.get_rect(topleft = (0,0))
 
-    def center_on(self, target):
-        self.offset.x = target.rect.centerx - self.half_width
-        self.offset.y = target.rect.centery - self.half_height
-
     def cdraw(self, player):
-        self.center_on(player)
+        # calculate scroll
+        scrollx = player.rect.x - self.px
+        scrolly = player.rect.y - self.py
 
-        # space
-        space_offset = self.space_rect.topleft - self.offset
-        self.display_surface.blit(self.space_surface, space_offset)
+        # apply scroll to surface
+        self.space_surface.scroll(-scrollx, -scrolly)
+
+        # save current position to calculate next scroll
+        player.rect.x = self.px
+        player.rect.y = self.py
+
+        # update surface
+        self.display_surface.blit(self.space_surface, [scrollx, scrolly])
