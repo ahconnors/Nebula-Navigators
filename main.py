@@ -7,6 +7,7 @@ from pygame.sprite import Sprite
 from pygame.rect import Rect
 from enum import Enum
 from planet import Planet
+import math
 
 
 # Define colors

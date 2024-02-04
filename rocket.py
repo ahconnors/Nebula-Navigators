@@ -37,3 +37,7 @@ class Player(pygame.sprite.Sprite):
         # Keep the player on the screen
         self.rect.x = max(0, min(self.rect.x, 800 - self.rect.width))
         self.rect.y = max(0, min(self.rect.y, 600 - self.rect.height))
+    
+    def setPos(self, x, y):
+        self.rect.x = x
+        self.rect.y = y
