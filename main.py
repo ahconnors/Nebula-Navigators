@@ -346,7 +346,7 @@ def play_level(screen,player,camera, resX, resY):
         
         if(player.acceleration_x != 0 or player.acceleration_y != 0):
             sound2.play()
-        else if(player.acceleration_x == 0 and player.acceleration_y == 0):
+        elif(player.acceleration_x == 0 and player.acceleration_y == 0):
             sound2.stop()
 
         # Check if fuel is being used
