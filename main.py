@@ -171,8 +171,8 @@ def play_level(screen,player,camera):
         screen.fill(BLACK)
 
         # Update camera
-        camera.update()
-        camera.cdraw(player)
+        camera.update(player)
+        screen.blit(camera.space_surface, (camera.px,camera.py))
 
         # Draw player
         screen.blit(player.image, player.rect)
@@ -205,7 +205,7 @@ def Main():
     pygame.display.set_caption('Nebula Navigators')
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
-    background = pygame.image.load('rainbow.png')
+    background = pygame.image.load('Background.png')
     nebula = pygame.image.load('nebula.jpg')
     nebula = pygame.transform.scale(nebula, (1600, 1200))
     background = pygame.transform.scale(background, (2000, 2000))

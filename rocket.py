@@ -54,8 +54,8 @@ class Player(pygame.sprite.Sprite):
         self.check_border_collision()
     
     def setPos(self, x, y):
-        self.rect.x = x
-        self.rect.y = y
+        self.posx = x
+        self.posy = y
 
     def check_border_collision(self):
         if self.rect.left <= 0 or self.rect.right >= screen_width:
