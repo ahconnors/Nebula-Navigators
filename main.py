@@ -133,26 +133,26 @@ def title_screen(screen,background, screen_width, screen_height):
 
 def play_level(screen,player,camera, screen_width, screen_height):
     return_btn = UIElement(
-        center_position=(180, screen_height - 50),
+        center_position=(180, screen_height - (screen_height * .05)),
         font_size=20,
         text_rgb=WHITE,
         text="Return to main menu",
         action=GameState.TITLE,
     )
 
-    health_bar = MaterialBar(20, 20, 100, "red")
+    health_bar = MaterialBar(20, screen_height *.05, 100, "red")
     health_bar.setValue(100)
     health_bar.setLabel("Ship Health")
-    fuel_bar = MaterialBar(150, 20, 100, "orange")
+    fuel_bar = MaterialBar(150, screen_height *.05, 100, "orange")
     fuel_bar.setValue(100)
     fuel_bar.setLabel("Fuel Level")
-    oxygen_bar = MaterialBar(280, 20, 100, "green")
+    oxygen_bar = MaterialBar(280, screen_height *.05, 100, "green")
     oxygen_bar.setValue(100)
     oxygen_bar.setLabel("Oxygen")
-    water_bar = MaterialBar(410, 20, 100, "blue")
+    water_bar = MaterialBar(410, screen_height *.05, 100, "blue")
     water_bar.setValue(100)
     water_bar.setLabel("Water")
-    steel_bar = MaterialBar(540, 20, 100, "grey")
+    steel_bar = MaterialBar(540, screen_height *.05, 100, "grey")
     steel_bar.setValue(100)
     steel_bar.setLabel("Steel")
 
