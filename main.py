@@ -328,7 +328,7 @@ def Main():
     camera = Camera()
     
     # Create player object
-    player = Player()
+    player = Player(resX, resY)
     # create a ui element
 
 
