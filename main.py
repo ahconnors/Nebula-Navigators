@@ -205,7 +205,7 @@ def Main():
     pygame.display.set_caption('Nebula Navigators')
     pygame_icon = pygame.image.load('rocket.svg')
     pygame.display.set_icon(pygame_icon)
-    background = pygame.image.load('Background.png')
+    background = pygame.image.load('rainbow.png')
     nebula = pygame.image.load('nebula.jpg')
     nebula = pygame.transform.scale(nebula, (1600, 1200))
     background = pygame.transform.scale(background, (2000, 2000))
