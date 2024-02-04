@@ -51,10 +51,7 @@ class Player(pygame.sprite.Sprite):
     
 
     def accelerate(self, rot, acceleration, gravity, theta):
-        # if (self.acceleration_x>0 and self.acceleration_y>0):
-        #     self.flame()
-        # if(self.acceleration_x == 0 and self.acceleration_y == 0):
-        #     self.unflame()
+
         self.angle += rot 
         self.image = rot_center(self.cleanImage, (self.angle * 180 / math.pi) - 90)
         self.acceleration_x = -acceleration * math.cos(self.angle)- gravity*math.cos(theta)
@@ -65,7 +62,7 @@ class Player(pygame.sprite.Sprite):
         # Scale the image to keep it consistent with the size of the original image
 
     def fire(self):
-        if (self.acceleration_x>0 or self.acceleration_y>0):
+        if (self.acceleration_x!=0 or self.acceleration_y!=0):
             self.flame()
         if(self.acceleration_x == 0 and self.acceleration_y == 0):
             self.unflame()

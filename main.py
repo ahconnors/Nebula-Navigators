@@ -461,9 +461,28 @@ def Main():
 
 
         if game_state == GameState.TITLE:
+            monitor = ""
+            for m in get_monitors():
+                monitor = str(m)
+                break
+            resX = (int)(monitor[monitor.find("width=") + 6 : monitor.find(",", monitor.find("width="))])
+            resY = (int)(monitor[monitor.find("height=") + 7 : monitor.find(",", monitor.find("height="))])
+            screen = pygame.display.set_mode((resX, resY), pygame.RESIZABLE)
+
+            
             game_state = title_screen(screen,nebula, resX, resY)
 
         if game_state == GameState.NEWGAME:
+            # Create camera
+            camera = Camera()
+            
+            # Create player object
+            player = Player(resX, resY)
+            # create a ui element
+            for planet in Planetlist:
+                planet.getRez(resX,resY)
+
+
             game_state = play_level(screen,player,camera, resX, resY)
 
         if game_state == GameState.QUIT:
