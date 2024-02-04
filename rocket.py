@@ -3,10 +3,7 @@ import sys
 from pygame.locals import *
 import math
 
-# Add the missing import statement for screen_width and screen_height
-# Initialize screen_width and screen_height with appropriate values
-screen_width = 1500
-screen_height = 850
+
 
 import pygame
 def rot_center(image, angle):
@@ -79,9 +76,3 @@ class Player(pygame.sprite.Sprite):
     def setPos(self, x, y):
         self.posx = x
         self.posy = y
-
-    def check_border_collision(self):
-        if self.rect.left <= 0 or self.rect.right >= screen_width:
-            self.velocity_x = 0
-        if self.rect.top <= 0 or self.rect.bottom >= screen_height:
-            self.velocity_y = 0
