@@ -142,10 +142,8 @@ def play_level(screen,player,camera):
 
     health_bar = MaterialBar(20, 20, 200, 30, 100, (0, 255, 0))
     health_bar.setValue(100)
-    health_bar.draw(screen)
     fuel_bar = MaterialBar(20, 60, 200, 30, 100, (255, 255, 0))
     fuel_bar.setValue(100)
-    fuel_bar.draw(screen)
 
     while True:
         clock = pygame.time.Clock() #adds clock
@@ -192,6 +190,8 @@ def play_level(screen,player,camera):
         if ui_action is not None:
             return ui_action
         return_btn.draw(screen)
+        health_bar.draw(screen)
+        fuel_bar.draw(screen)
 
         pygame.display.flip()
 
