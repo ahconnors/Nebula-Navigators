@@ -91,20 +91,20 @@ def out_of_fuel_screen(screen,background, screen_width, screen_height):
     screen.blit(background, (0,0))
 
     uielement = UIElement(
-        center_position=(800, screen_height - 400),
+        center_position=(800, screen_height - 600),
         font_size=40,
         text_rgb=WHITE,
         text="You are out of fuel",
     )
     start_btn = UIElement(
-        center_position=(800, screen_height - 300),
+        center_position=(800, screen_height - 500),
         font_size=30,
         text_rgb=WHITE,
         text="Return to main menu",
         action=GameState.TITLE,
     )
     quit_btn = UIElement(
-        center_position=(800, screen_height - 200),
+        center_position=(800, screen_height - 400),
         font_size=30,
         text_rgb=WHITE,
         text="Quit Game",
@@ -139,20 +139,20 @@ def title_screen(screen,background, resX, resY):
     screen.blit(background, (0,0))
 
     uielement = UIElement(
-        center_position=(resX / 2, resY - 400),
+        center_position=(resX / 2, resY - 600),
         font_size=40,
         text_rgb=WHITE,
         text="Welcome to Nebula Navigators",
     )
     start_btn = UIElement(
-        center_position=(resX / 2, resY - 300),
+        center_position=(resX / 2, resY - 500),
         font_size=30,
         text_rgb=WHITE,
         text="Start Game",
         action=GameState.NEWGAME,
     )
     quit_btn = UIElement(
-        center_position=(resX / 2, resY - 200),
+        center_position=(resX / 2, resY - 400),
         font_size=30,
         text_rgb=WHITE,
         text="Quit Game",
