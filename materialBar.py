@@ -12,6 +12,7 @@ class MaterialBar():
 
     def draw(self, surface):
         ratio = self.value / self.max
+        pygame.draw.rect(surface, "grey", (self.x - 5, self.y - 5, self.w + 10, self.h + 10))
         pygame.draw.rect(surface, "red", (self.x, self.y, self.w, self.h))
         pygame.draw.rect(surface, self.color, (self.x, self.y, self.w * ratio, self.h))
 
