@@ -17,7 +17,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
 
-planet = Planet(400, 300, 100 )
+Planetlist= [Planet(400, 300, 100 ),Planet(400, -300, 100 ),Planet(-400, 300, 100 )]
 
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
@@ -183,14 +183,12 @@ def play_level(screen,player,camera):
         # Draw player
         screen.blit(player.image, player.rect)
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
-
-        planet.updatePos(player.velocity_x, player.velocity_y)
-        planet.draw(screen, planet.retX() *(-.25) , planet.retY() * (-.25))
-
-        if(planet.check_collision(player)):
-            planet.handle_collision(player)
-        if ui_action is not None:
-            return ui_action
+        for planet in Planetlist:
+            planet.draw(screen,player.posx, player.posy, planet.retX() *(-.25) , planet.retY() * (-.25))
+            if(planet.check_collision(player)):
+                planet.handle_collision(player)
+            if ui_action is not None:
+                return ui_action
         return_btn.draw(screen)
         health_bar.draw(screen)
         fuel_bar.draw(screen)

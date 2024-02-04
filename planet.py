@@ -41,15 +41,12 @@ class Planet:
         self.centery = 0
         self.surface = create_multicolored_circle(radius)
 
-    def draw(self, screen,x,y):
-        screen.blit(self.surface, (x-self.radius, y-2*self.radius))
+    def draw(self,screen, posx,posy,x,y):
+        screen.blit(self.surface, (760+self.x-self.radius-posx,560+self.y-self.radius-posy))
 
     def update(self):
         pass
 
-    def updatePos(self, velocityx, velocityy):
-        self.x += velocityx
-        self.y += velocityy
 
     def retX(self):
         return self.x
@@ -57,8 +54,8 @@ class Planet:
         return self.y
     
     def check_collision(self, player):
-        self.centerx = (player.rect.x + player.rect.width / 2)
-        self.centery = (player.rect.y + player.rect.height / 2)
+        self.centerx = (player.posx + player.rect.width / 2)
+        self.centery = (player.posy + player.rect.height / 2)
         distance = ((self.x - self.centerx) ** 2 + (self.y - self.centery) ** 2) ** 0.5
         self.collisionRadius = distance
         if(distance < (self.radius + player.rect.width / 2)):
