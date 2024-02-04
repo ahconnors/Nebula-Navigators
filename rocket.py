@@ -71,14 +71,14 @@ class Player(pygame.sprite.Sprite):
         self.posy += self.velocity_y
 
         # Check validity of position]
-        self.posx = max(-10000, self.posx)
-        self.posx = min(10000, self.posx)
-        self.posy = max(-10000, self.posy)
-        self.posy = min(10000, self.posy)
-        if((self.posx <= -10000) or (self.posx >= 10000)):
+        self.posx = max(-20000, self.posx)
+        self.posx = min(20000, self.posx)
+        self.posy = max(-20000, self.posy)
+        self.posy = min(20000, self.posy)
+        if((self.posx <= -20000) or (self.posx >= 20000)):
             self.velocity_x = 0
             self.acceleration_x = 0
-        if((self.posy <= -10000) or (self.posy >= 10000)):
+        if((self.posy <= -20000) or (self.posy >= 20000)):
             self.velocity_y = 0
             self.acceleration_y = 0
         

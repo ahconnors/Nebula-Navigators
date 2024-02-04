@@ -12,6 +12,7 @@ from planet import Planet
 import math
 from materialBar import MaterialBar
 import pygame
+import random
 pygame.mixer.init()
 pygame.mixer.music.load("Thrusters.mp3")
 pygame.mixer.music.play(-1)
@@ -26,8 +27,10 @@ BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
 Planetlist= []
 i=random.randint(10,15)
+j=i
 while(i>0):
-    Planetlist.append(Planet(random.randint(-9000,9000),random.randint(-9000,9000),random.randint(200,1500),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,300)))
+
+    Planetlist.append(Planet(random.randint(-19000+round(37000*(j-i)/j),-18000+round(37000*(j-i)/j)),random.randint(-9000,9000),random.randint(200,850),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,300)))
     i+=-1
 
 def create_surface_with_text(text, font_size, text_rgb):
@@ -353,10 +356,8 @@ def play_level(screen,player,camera, resX, resY):
         #notes for gravity calculation
         
         closestPlanet = find_closest_planet(player, Planetlist)
-        planetDistance = math.sqrt((player.posx - closestPlanet.retX())**2 + (player.posy - closestPlanet.retY())**2)
+        planetDistance = math.sqrt((player.posx+player.rect.width / 2 - closestPlanet.retX())**2 + (player.posy+player.rect.height / 2 - closestPlanet.retY())**2)
         planetAngle = math.atan2((player.posy+player.rect.height / 2  - closestPlanet.retY()), (player.posx+player.rect.width / 2 - closestPlanet.retX()))
-        print(planetAngle)
-        print(player.velocity_x, player.velocity_y) 
         gravity =G*closestPlanet.mass/(planetDistance ** 2)
 
         if(closestPlanet.getLanded()):
