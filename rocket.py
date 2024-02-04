@@ -59,7 +59,7 @@ class Player(pygame.sprite.Sprite):
         self.posx += self.velocity_x
         self.posy += self.velocity_y
 
-        # Keep the player on the screen
+        # Keep the player on the 
     
     def setPos(self, x, y):
         self.posx = x
