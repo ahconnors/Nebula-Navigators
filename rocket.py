@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
       #  self.cleanImage=self.lit_image
    # def unflame(self):
         #self.cleanImage=self.original_image
-    def __init__(self,resX,resY, resX, resY):
+    def __init__(self,resX,resY):
         super().__init__()
         self.resX = resX
         self.resY = resY
