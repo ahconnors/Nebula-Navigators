@@ -248,6 +248,54 @@ def out_of_fuel_screen(screen,background, screen_width, screen_height):
 
         pygame.display.flip()
 
+def out_of_health(screen,background, screen_width, screen_height):
+    screen.blit(background, (0,0))
+
+    uielement = UIElement(
+        center_position=(screen_width/2, screen_height - 600),
+        font_size=40,
+        text_rgb=WHITE,
+        text="You are out of health",
+    )
+    start_btn = UIElement(
+        center_position=(screen_width/2, screen_height - 500),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Return to main menu",
+        action=GameState.TITLE,
+    )
+    quit_btn = UIElement(
+        center_position=(screen_width/2, screen_height - 400),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Quit Game",
+        action=GameState.QUIT,
+    )
+
+    buttons = [uielement, start_btn, quit_btn]
+    
+
+    while True:
+
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
+        screen.blit(background, (0,0))
+
+
+        for button in buttons:
+            ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if ui_action is not None:
+                return ui_action
+            button.draw(screen)
+
+        pygame.display.flip()
+
 
 def title_screen(screen,background, resX, resY):
     screen.blit(background, (0,0))
@@ -506,6 +554,7 @@ class GameState(Enum):
     NOFUEL = 2
     FOOD = 3
     WATER = 4
+    HEALTH = 5
 
 
 # Define acceleration constants
@@ -586,6 +635,8 @@ def Main():
             game_state = out_of_food_screen(screen,nebula, resX, resY)
         if(game_state == GameState.WATER):
             game_state = out_of_water_screen(screen,nebula, resX, resY)
+        if(game_state == GameState.HEALTH):
+            game_state = out_of_health(screen,nebula, resX, resY)
 
         pygame.display.flip()
 
