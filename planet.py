@@ -25,3 +25,4 @@ class Planet:
         player.velocity_y = 0
         player.acceleration_x = 0
         player.acceleration_y = 0
+

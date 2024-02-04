@@ -191,7 +191,7 @@ class GameState(Enum):
 
 
 # Define acceleration constants
-ROT = .1
+ROT = .15
 ACCELERATION = 1
 
 def Main():
