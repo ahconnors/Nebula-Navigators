@@ -12,6 +12,7 @@ from planet import Planet
 import math
 from materialBar import MaterialBar
 import pygame
+import random
 
 
 resX = 0
@@ -21,7 +22,11 @@ resY = 0
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
-Planetlist= [Planet(1000, 300, 100,[False,False, False,False], 100 )]
+Planetlist= []
+i=random.randint(10,15)
+while(i>0):
+    Planetlist.append(Planet(random.randint(-9000,9000),random.randint(-9000,9000),random.randint(200,1500),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,300)))
+    i+=-1
 
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
