@@ -140,10 +140,21 @@ def play_level(screen,player,camera):
         action=GameState.TITLE,
     )
 
-    health_bar = MaterialBar(20, 20, 200, 30, 100, (0, 255, 0))
+    health_bar = MaterialBar(20, 20, 100, "red")
     health_bar.setValue(100)
-    fuel_bar = MaterialBar(20, 60, 200, 30, 100, (255, 255, 0))
+    health_bar.setLabel("Ship Health")
+    fuel_bar = MaterialBar(150, 20, 100, "orange")
     fuel_bar.setValue(100)
+    fuel_bar.setLabel("Fuel Level")
+    oxygen_bar = MaterialBar(280, 20, 100, "green")
+    oxygen_bar.setValue(100)
+    oxygen_bar.setLabel("Oxygen")
+    water_bar = MaterialBar(410, 20, 100, "blue")
+    water_bar.setValue(100)
+    water_bar.setLabel("Water")
+    steel_bar = MaterialBar(540, 20, 100, "grey")
+    steel_bar.setValue(100)
+    steel_bar.setLabel("Steel")
 
     while True:
         clock = pygame.time.Clock() #adds clock
@@ -189,12 +200,41 @@ def play_level(screen,player,camera):
         if ui_action is not None:
             return ui_action
         return_btn.draw(screen)
+
         health_bar.draw(screen)
         fuel_bar.draw(screen)
+        oxygen_bar.draw(screen)
+        water_bar.draw(screen)
+        steel_bar.draw(screen)
 
         pygame.display.flip()
 
         clock.tick(30)
+
+        if(player.velocity_x > 0 and player.velocity_y > 0):
+            player.landed = False
+               
+        if(player.gettingOxygen):
+            oxygen_bar.setValue(oxygen_bar.value + 0.1)
+        else:
+            oxygen_bar.setValue(oxygen_bar.value - 0.01)
+        
+        if(player.gettingWater):
+            water_bar.setValue(water_bar.value + 0.1)
+        else:
+            water_bar.setValue(water_bar.value - 0.01)
+
+        if(not player.landed):
+            continue
+        
+        if(player.gettingFuel):
+            fuel_bar.setValue(fuel_bar.value + 0.1)
+        
+        if(player.gettingSteel):
+            steel_bar.setValue(steel_bar.value + 0.1)
+        
+        
+
 
 class GameState(Enum):
     QUIT = -1

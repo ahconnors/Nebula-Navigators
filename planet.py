@@ -30,7 +30,7 @@ def create_multicolored_circle(radius):
         i+=1
     return surface
 class Planet:
-    def __init__(self, x, y, radius):
+    def __init__(self, x, y, radius, resources = [False, False, False, False]):
         self.x = x
         self.y = y
         self.radius = radius
@@ -40,6 +40,11 @@ class Planet:
         self.centerx = 0
         self.centery = 0
         self.surface = create_multicolored_circle(radius)
+
+        self.hasFuel = resources[0]
+        self.hasOxygen = resources[1]
+        self.hasWater = resources[2]
+        self.hasSteel = resources[3]
 
     def draw(self, screen,x,y):
         screen.blit(self.surface, (x-self.radius, y-2*self.radius))
@@ -64,16 +69,6 @@ class Planet:
         # Ensure the angle is in the range [0, 2*pi)
         collisionAngle %= (2 * math.pi)
         print(collisionAngle)
-
-        rocketAngle = player.angle % (2 * math.pi)
-        if(rocketAngle >= 0.95*collisionAngle and rocketAngle <= 1.05*collisionAngle):
-            player.angle = collisionAngle
-    
-        # Adjust angle for negative values
-        # if self.y_collision < 0 and self.x_collision < 0:
-        # collisionAngle += math.pi
-        # elif self.x_collision < 0:
-        # collisionAngle += math.pi
     
         # Calculate the new position
         new_x = self.x + ((self.radius + (player.rect.width / 2)) * math.cos(collisionAngle)) - (player.rect.width / 2)
@@ -87,3 +82,29 @@ class Planet:
         player.velocity_y = 0
         player.acceleration_x = 0
         player.acceleration_y = 0
+        
+        rocketAngle = player.angle % (2 * math.pi)
+        if(rocketAngle >= 0.95*collisionAngle and rocketAngle <= 1.05*collisionAngle):
+            player.angle = collisionAngle
+            player.landed = True
+            
+            if(self.hasFuel):
+                player.gettingFuel = True
+            else:
+                player.gettingFuel = False
+
+            if(self.hasOxygen):
+                player.gettingOxygen = True
+            else:
+                player.gettingOxygen = False
+
+            if(self.hasWater):
+                player.gettingWater = True
+            else:
+                player.gettingWater = False
+
+            if(self.hasSteel):
+                player.gettingSteel = True
+            else:
+                player.gettingSteel = False
+        

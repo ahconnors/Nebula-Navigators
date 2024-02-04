@@ -37,6 +37,12 @@ class Player(pygame.sprite.Sprite):
         self.angle= (math.pi)/2
         self.posx=0
         self.posy=0
+        
+        self.landed = False
+        self.gettingFuel = False
+        self.gettingOxygen = False
+        self.gettingWater = False
+        self.gettingSteel = False
     
 
     def accelerate(self, rot, acceleration):
