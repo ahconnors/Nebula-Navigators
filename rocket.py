@@ -50,11 +50,11 @@ class Player(pygame.sprite.Sprite):
         self.gettingSteel = False
     
 
-    def accelerate(self, rot, acceleration):
+    def accelerate(self, rot, acceleration, gravity, theta):
         self.angle += rot 
         self.image = rot_center(self.cleanImage, (self.angle * 180 / math.pi) - 90)
-        self.acceleration_x = -acceleration * math.cos(self.angle)
-        self.acceleration_y = acceleration * math.sin(self.angle)
+        self.acceleration_x = -acceleration * math.cos(self.angle)+ gravity*math.cos(theta)
+        self.acceleration_y = acceleration * math.sin(self.angle)- gravity*math.sin(theta)
 
         # Check if either acceleration_x or acceleration_y is positive
 

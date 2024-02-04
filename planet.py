@@ -31,9 +31,9 @@ def create_multicolored_circle(radius):
         i+=1
     return surface
 class Planet:
-    def __init__(self, x, y, radius, resources):
+    def __init__(self, x, y, radius, resources, mass):
         self.x = x
-        self.y = y
+        self.y = y 
         self.radius = radius
         self.x_collision = 0
         self.y_collision = 0

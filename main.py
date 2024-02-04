@@ -21,7 +21,7 @@ resY = 0
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
-Planetlist= [Planet(400, 300, 100,[False,False, False,False] ),Planet(400, -300, 100,[False,False, False,False]  ),Planet(-400, 300, 100 ,[False,False, False,False] )]
+Planetlist= [Planet(400, 300, 1000,[False,False, False,False] ),Planet(400, -300, 1000,[False,False, False,False]  ),Planet(-400, 300, 1000 ,[False,False, False,False] )]
 
 
 def create_surface_with_text(text, font_size, text_rgb):
