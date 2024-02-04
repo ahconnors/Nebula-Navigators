@@ -12,6 +12,7 @@ from planet import Planet
 import math
 from materialBar import MaterialBar
 import pygame
+import random
 pygame.mixer.init()
 pygame.mixer.music.load("Thrusters.mp3")
 pygame.mixer.music.play(-1)
