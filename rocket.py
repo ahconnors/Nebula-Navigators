@@ -22,6 +22,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.original_image = pygame.image.load('Player.webp').convert_alpha()  # Load player image
+        self.litImage = pygame.image.load('litRocket.png').convert_alpha()
         self.image = pygame.transform.scale(self.original_image, (75, 75))
         self.cleanImage=self.image
         self.rect = self.image.get_rect()
@@ -33,10 +34,17 @@ class Player(pygame.sprite.Sprite):
         self.angle= (math.pi)/2
         
     def accelerate(self, rot, acceleration):
+        if(acceleration<0):
+            self.cleanImage= self.litImage
         self.angle += rot 
-        self.image = rot_center(self.cleanImage, (self.angle*180/math.pi)-90)
-        self.acceleration_x = -acceleration*math.cos(self.angle)
-        self.acceleration_y = acceleration*math.sin(self.angle)
+        self.image = rot_center(self.cleanImage, (self.angle * 180 / math.pi) - 90)
+        self.acceleration_x = -acceleration * math.cos(self.angle)
+        self.acceleration_y = acceleration * math.sin(self.angle)
+
+        # Check if either acceleration_x or acceleration_y is positive
+
+        # Scale the image to keep it consistent with the size of the original image
+        self.image = pygame.transform.scale(self.image, (75, 75))
 
     def update(self):
         self.velocity_x += self.acceleration_x
