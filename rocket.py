@@ -71,17 +71,17 @@ class Player(pygame.sprite.Sprite):
         self.posx += self.velocity_x
         self.posy += self.velocity_y
 
-        # Check validity of position
-        self.posx = max(-1000, self.posx - self.resX/2)
-        self.posx = min(1000, self.posx + self.resX/2)
-        self.posy = max(-5000, self.posy - self.resY/2)
-        self.posy = min(5000, self.posy + self.resY/2)
-        if((self.posx - self.resX/2 == -1000) or (self.posx + self.resX/2 == 1000) or (self.posy - self.resY/2 == -5000) or (self.posy + self.resY/2 == 5000)):
+        # Check validity of position]
+        self.posx = max(-5000, self.posx)
+        self.posx = min(5000, self.posx)
+        self.posy = max(-5000, self.posy)
+        self.posy = min(5000, self.posy)
+        if((self.posx <= -5000) or (self.posx >= 5000)):
             self.velocity_x = 0
-            self.velocity_y = 0
             self.acceleration_x = 0
+        if((self.posy <= -5000) or (self.posy >= 5000)):
+            self.velocity_y = 0
             self.acceleration_y = 0
-
 
     
     def setPos(self, x, y):
