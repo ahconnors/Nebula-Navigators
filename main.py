@@ -11,6 +11,7 @@ from enum import Enum
 from planet import Planet
 import math
 from materialBar import MaterialBar
+from arrow import Arrow
 import pygame
 import random
 pygame.mixer.init()
@@ -403,6 +404,7 @@ def play_level(screen,player,camera, resX, resY):
     steel_bar = MaterialBar(540, 20, 100, "grey")
     steel_bar.setValue(25)
     steel_bar.setLabel("Steel")
+    arro= Arrow(resX, resY)
 
     while True:
         if(GameState != GameState.QUIT):
@@ -455,7 +457,7 @@ def play_level(screen,player,camera, resX, resY):
         planetDistance = math.sqrt((player.posx+player.rect.width / 2 - closestPlanet.retX())**2 + (player.posy+player.rect.height / 2 - closestPlanet.retY())**2)
         planetAngle = math.atan2((player.posy+player.rect.height / 2  - closestPlanet.retY()), (player.posx+player.rect.width / 2 - closestPlanet.retX()))
         gravity =G*closestPlanet.mass/(planetDistance ** 2)
-
+        
         if(closestPlanet.getLanded()):
             player.landed = True
             player.velocity_x = 0
@@ -475,11 +477,13 @@ def play_level(screen,player,camera, resX, resY):
 
         # Clear the screen
         screen.fill(BLACK)
-
+        
         # Update camera
         camera.update(player)
         screen.blit(camera.space, (round(camera.px),round(camera.py)))
-        
+        arro.point(planetAngle)
+        print(planetAngle)
+        screen.blit(arro.image, arro.rect)
         # Draw player
         screen.blit(player.image, player.rect)
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
@@ -582,14 +586,13 @@ def Main():
     # Create camera
     camera = Camera()
     
-    # Create player object
+    # Create player 
     player = Player(resX, resY)
+    
     # create a ui element
     for planet in Planetlist:
         planet.getRez(resX,resY)
     
-
-
 
     # main loop
     while True:
