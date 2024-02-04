@@ -12,7 +12,10 @@ from planet import Planet
 import math
 from materialBar import MaterialBar
 import pygame
-
+pygame.mixer.init()
+pygame.mixer.music.load("Thrusters.mp3")
+pygame.mixer.music.play(-1)
+pygame.mixer.music.pause()
 
 resX = 0
 resY = 0
@@ -332,8 +335,10 @@ def play_level(screen,player,camera, resX, resY):
         if(da != 0):
             fuel_bar.setValue(fuel_bar.value - 0.1)
             player.flame()
+            pygame.mixer.music.unpause()
         else:
             player.unflame()
+            pygame.mixer.music.pause()
         if(fuel_bar.value <= 0):
             return GameState.NOFUEL
 
