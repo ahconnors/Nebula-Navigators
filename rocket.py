@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.original_image
         self.cleanImage=self.original_image
         self.rect = self.original_image.get_rect()
-        self.rect.center = (750, 425)  # Start position
+        self.rect.center = (800, 600)  # Start position
         self.velocity_x = 0
         self.velocity_y = 0
         self.acceleration_x = 0

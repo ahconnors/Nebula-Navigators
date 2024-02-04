@@ -6,8 +6,8 @@ class Camera(pygame.sprite.Group):
         self.display_surface = pygame.display.get_surface()
 
         # starting point for background
-        self.px = 1000
-        self.py = 1000
+        self.px = 0
+        self.py = 0
 
         # space
         image = pygame.image.load('rainbow.png')
