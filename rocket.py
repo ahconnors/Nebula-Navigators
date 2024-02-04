@@ -1,6 +1,7 @@
 import pygame
 import sys
 from pygame.locals import *
+import math
 
 # Add the missing import statement for screen_width and screen_height
 # Initialize screen_width and screen_height with appropriate values
@@ -8,28 +9,39 @@ screen_width = 800
 screen_height = 600
 
 import pygame
+def rot_center(image, angle):
+    """rotate an image while keeping its center and size"""
+    orig_rect = image.get_rect()
+    rot_image = pygame.transform.rotate(image, angle)
+    rot_rect = orig_rect.copy()
+    rot_rect.center = rot_image.get_rect().center
+    rot_image = rot_image.subsurface(rot_rect).copy()
+    return rot_image
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((50, 50))  # Placeholder image
-        self.image.fill((255, 255, 255))
+        self.original_image = pygame.image.load('Player.webp').convert_alpha()  # Load player image
+        self.image = pygame.transform.scale(self.original_image, (75, 75))
+        self.cleanImage=self.image
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)  # Start position
         self.velocity_x = 0
         self.velocity_y = 0
         self.acceleration_x = 0
         self.acceleration_y = 0
-        self.posx = 400
-        self.posy = 300
+        self.angle= (math.pi)/2
         
-    def accelerate(self, acceleration_x, acceleration_y):
-        self.acceleration_x = acceleration_x
-        self.acceleration_y = acceleration_y
+    def accelerate(self, rot, acceleration):
+        self.angle += rot 
+        self.image = rot_center(self.cleanImage, (self.angle*180/math.pi)-90)
+        self.acceleration_x = -acceleration*math.cos(self.angle)
+        self.acceleration_y = acceleration*math.sin(self.angle)
 
     def update(self):
         self.velocity_x += self.acceleration_x
         self.velocity_y += self.acceleration_y
+        
 
 
         # Update position based on velocity
