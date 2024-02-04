@@ -19,7 +19,7 @@ def rot_center(image, angle):
     return rot_image
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, group):
         super().__init__()
         self.original_image = pygame.image.load('Player.webp').convert_alpha()  # Load player image
         self.image = pygame.transform.scale(self.original_image, (75, 75))

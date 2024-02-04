@@ -1,6 +1,7 @@
 import pygame
 import sys
 from rocket import Player
+from camera import Camera
 import time
 import pygame.freetype
 from pygame.sprite import Sprite
@@ -129,7 +130,7 @@ def title_screen(screen,background):
 
         pygame.display.flip()
 
-def play_level(screen,player,background):
+def play_level(screen,player,camera):
     return_btn = UIElement(
         center_position=(140, 570),
         font_size=20,
@@ -169,8 +170,10 @@ def play_level(screen,player,background):
         # Clear the screen
         screen.fill(BLACK)
 
-        # Draw background
-        screen.blit(background, (0,0))
+        # Update camera
+        camera.update()
+        camera.cdraw(player)
+
         # Draw player
         screen.blit(player.image, player.rect)
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
@@ -207,9 +210,12 @@ def Main():
     background = pygame.transform.scale(background, (2000, 2000))
     game_state = GameState.TITLE
 
+
+    # Create camera
+    camera = Camera()
     
     # Create player object
-    player = Player()
+    player = Player(camera)
     # create a ui element
 
 
@@ -227,7 +233,7 @@ def Main():
             game_state = title_screen(screen,nebula)
 
         if game_state == GameState.NEWGAME:
-            game_state = play_level(screen,player,background)
+            game_state = play_level(screen,player,camera)
 
         if game_state == GameState.QUIT:
             pygame.quit()
