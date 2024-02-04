@@ -30,7 +30,6 @@ class Planet:
         return distance < self.radius + player.rect.width / 2
 
     def handle_collision(self, player):
-        if()
 
         collisionAngle = math.atan2(self.y_collision, self.x_collision)
     
