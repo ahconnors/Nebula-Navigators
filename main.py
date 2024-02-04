@@ -26,11 +26,11 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
 Planetlist= []
-i=random.randint(10,15)
+i=random.randint(20,25)
 j=i
 while(i>0):
 
-    Planetlist.append(Planet(random.randint(-19000+round(37000*(j-i)/j),-18000+round(37000*(j-i)/j)),random.randint(-9000,9000),random.randint(200,850),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,300)))
+    Planetlist.append(Planet(random.randint(-19000+round(37000*(j-i)/j),-19000+round(37000*(j-i+2)/j)),random.randint(-9000,9000),random.randint(200,850),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,300)))
     i+=-1
 
 def create_surface_with_text(text, font_size, text_rgb):
@@ -349,10 +349,11 @@ def play_level(screen,player,camera, resX, resY):
         dt = -keys[pygame.K_RIGHT] + keys[pygame.K_LEFT]
         da = - keys[pygame.K_UP]
         
-        if(player.acceleration_x != 0 or player.acceleration_y != 0):
-            sound2.play()
-        elif(player.acceleration_x == 0 and player.acceleration_y == 0):
-            sound2.stop()
+       # if(player.acceleration_x != 0 or player.acceleration_y != 0):
+            #sound2.play()
+            
+        #el(player.acceleration_x == 0 and player.acceleration_y == 0):
+            #sound2.stop()
 
         # Check if fuel is being used
         if(da != 0):
