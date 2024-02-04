@@ -344,10 +344,11 @@ def play_level(screen,player,camera, resX, resY):
         dt = -keys[pygame.K_RIGHT] + keys[pygame.K_LEFT]
         da = - keys[pygame.K_UP]
         
-        if(player.acceleration_x != 0 or player.acceleration_y != 0):
-            sound2.play()
-        else if(player.acceleration_x == 0 and player.acceleration_y == 0):
-            sound2.stop()
+       # if(player.acceleration_x != 0 or player.acceleration_y != 0):
+            #sound2.play()
+            
+        #else (player.acceleration_x == 0 and player.acceleration_y == 0):
+            #sound2.stop()
 
         # Check if fuel is being used
         if(da != 0):
