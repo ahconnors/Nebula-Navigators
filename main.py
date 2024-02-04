@@ -12,6 +12,7 @@ from planet import Planet
 import math
 from materialBar import MaterialBar
 import pygame
+import random
 
 
 resX = 0
@@ -21,7 +22,11 @@ resY = 0
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (93, 63, 211)
-Planetlist= [Planet(1000, 300, 150,[False,False, False,False], 25 )]
+Planetlist= []
+i=random.randint(10,15)
+while(i>0):
+    Planetlist.append(Planet(random.randint(-9000,9000),random.randint(-9000,9000),random.randint(200,1500),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,300)))
+    i+=-1
 
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
@@ -475,9 +480,28 @@ def Main():
 
 
         if game_state == GameState.TITLE:
+            monitor = ""
+            for m in get_monitors():
+                monitor = str(m)
+                break
+            resX = (int)(monitor[monitor.find("width=") + 6 : monitor.find(",", monitor.find("width="))])
+            resY = (int)(monitor[monitor.find("height=") + 7 : monitor.find(",", monitor.find("height="))])
+            screen = pygame.display.set_mode((resX, resY), pygame.FULLSCREEN)
+
+            
             game_state = title_screen(screen,nebula, resX, resY)
 
         if game_state == GameState.NEWGAME:
+            # Create camera
+            camera = Camera()
+            
+            # Create player object
+            player = Player(resX, resY)
+            # create a ui element
+            for planet in Planetlist:
+                planet.getRez(resX,resY)
+
+
             game_state = play_level(screen,player,camera, resX, resY)
 
         if game_state == GameState.QUIT:
