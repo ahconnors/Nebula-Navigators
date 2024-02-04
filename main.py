@@ -87,24 +87,24 @@ class UIElement(Sprite):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
 
-def title_screen(screen,background, screen_width, screen_height):
+def title_screen(screen,background, resX, resY):
     screen.blit(background, (0,0))
 
     uielement = UIElement(
-        center_position=(800, screen_height - 400),
+        center_position=(resX / 2, resY - 400),
         font_size=40,
         text_rgb=WHITE,
         text="Welcome to Nebula Navigators",
     )
     start_btn = UIElement(
-        center_position=(800, screen_height - 300),
+        center_position=(resX / 2, resY - 300),
         font_size=30,
         text_rgb=WHITE,
         text="Start Game",
         action=GameState.NEWGAME,
     )
     quit_btn = UIElement(
-        center_position=(800, screen_height - 200),
+        center_position=(resX / 2, resY - 200),
         font_size=30,
         text_rgb=WHITE,
         text="Quit Game",
@@ -135,28 +135,28 @@ def title_screen(screen,background, screen_width, screen_height):
 
         pygame.display.flip()
 
-def play_level(screen,player,camera, screen_width, screen_height):
+def play_level(screen,player,camera, resX, resY):
     return_btn = UIElement(
-        center_position=(180, screen_height - (screen_height * .05)),
+        center_position=(180, resY * 0.95),
         font_size=20,
         text_rgb=WHITE,
         text="Return to main menu",
         action=GameState.TITLE,
     )
 
-    health_bar = MaterialBar(20, screen_height *.05, 100, "red")
+    health_bar = MaterialBar(20, 20, 100, "red")
     health_bar.setValue(100)
     health_bar.setLabel("Ship Health")
-    fuel_bar = MaterialBar(150, screen_height *.05, 100, "orange")
+    fuel_bar = MaterialBar(150, 20, 100, "orange")
     fuel_bar.setValue(100)
     fuel_bar.setLabel("Fuel Level")
-    oxygen_bar = MaterialBar(280, screen_height *.05, 100, "green")
+    oxygen_bar = MaterialBar(280, 20, 100, "green")
     oxygen_bar.setValue(100)
     oxygen_bar.setLabel("Oxygen")
-    water_bar = MaterialBar(410, screen_height *.05, 100, "blue")
+    water_bar = MaterialBar(410, 20, 100, "blue")
     water_bar.setValue(100)
     water_bar.setLabel("Water")
-    steel_bar = MaterialBar(540, screen_height *.05, 100, "grey")
+    steel_bar = MaterialBar(540, 20, 100, "grey")
     steel_bar.setValue(100)
     steel_bar.setLabel("Steel")
 
