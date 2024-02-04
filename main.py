@@ -171,7 +171,6 @@ def play_level(screen,player,camera):
 
         # Update player velocity based on acceleration
         player.accelerate(rot, acceleration)
-        #player.flame()
 
         # Update player position
         player.update()
