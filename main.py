@@ -156,6 +156,7 @@ def play_level(screen,player,camera):
         dt = -keys[pygame.K_RIGHT] + keys[pygame.K_LEFT]
         da = - keys[pygame.K_UP]
 
+
         # Apply acceleration
         rot = dt * ROT
         acceleration = da * ACCELERATION
@@ -163,6 +164,7 @@ def play_level(screen,player,camera):
 
         # Update player velocity based on acceleration
         player.accelerate(rot, acceleration)
+        player.flame()
 
         # Update player position
         player.update()
