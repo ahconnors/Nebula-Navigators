@@ -7,6 +7,7 @@ from pygame.sprite import Sprite
 from pygame.rect import Rect
 from enum import Enum
 from planet import Planet
+import math
 
 
 # Define colors
@@ -191,7 +192,7 @@ class GameState(Enum):
 
 
 # Define acceleration constants
-ROT = .1
+ROT = .15
 ACCELERATION = 1
 
 def Main():
