@@ -434,8 +434,8 @@ def play_level(screen,player,camera, resX, resY):
         camera.update(player)
         screen.blit(camera.space, (round(camera.px),round(camera.py)))
         arro.point(planetAngle)
-        print(planetAngle)
-        screen.blit(arro.image, arro.rect)
+        if(planetDistance>1000):
+            screen.blit(arro.image, arro.rect)
         # Draw player
         screen.blit(player.image, player.rect)
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)

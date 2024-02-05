@@ -18,7 +18,7 @@ class Arrow(pygame.sprite.Sprite):
         self.resX = resX
         self.resY = resY
         self.original_image = pygame.image.load('Arrow.png')  # Load player image
-        self.original_image = pygame.transform.scale(self.original_image, (100, 100))
+        self.original_image = pygame.transform.scale(self.original_image, (70, 70))
         #self.image = self.original_image
         self.cleanImage=self.original_image
         self.rect=(resX+60,resY)
@@ -26,6 +26,6 @@ class Arrow(pygame.sprite.Sprite):
     
     def point(self,angle):
         self.angle=angle
-        self.rect=(self.resX/2-60*+math.cos(self.angle)-50,self.resY/2+math.sin(self.angle)*60-50)
+        self.rect=(self.resX/2-100*+math.cos(self.angle)-35,self.resY/2-math.sin(self.angle)*100-35)
         self.image = rot_center(self.cleanImage, -self.angle*180/math.pi+90)
     
