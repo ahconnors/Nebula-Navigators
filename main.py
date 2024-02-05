@@ -31,9 +31,9 @@ i=random.randint(20,25)
 j=i
 while(i>0):
 
-    Planetlist.append(Planet(random.randint(-19000+round(37000*(j-i)/j),-19000+round(37000*(j-i+2)/j)),random.randint(-9000,9000),random.randint(200,850),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,300)))
+    Planetlist.append(Planet(random.randint(-19000+round(37000*(j-i)/j),-19000+round(37000*(j-i+2)/j)),random.randint(-9000,9000),random.randint(200,850),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,250)))
     i+=-1
-
+Planetlist.append(Planet(500,500,200,[1,1,1,1],100))
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
     font = pygame.freetype.SysFont("Courier", font_size, bold=True)
