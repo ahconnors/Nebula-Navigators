@@ -31,9 +31,9 @@ i=random.randint(20,25)
 j=i
 while(i>0):
 
-    Planetlist.append(Planet(random.randint(-19000+round(37000*(j-i)/j),-19000+round(37000*(j-i+2)/j)),random.randint(-9000,9000),random.randint(200,850),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,300)))
+    Planetlist.append(Planet(random.randint(-19000+round(37000*(j-i)/j),-19000+round(37000*(j-i+2)/j)),random.randint(-9000,9000),random.randint(200,850),[random.randint(0,1),random.randint(0,1),random.randint(0,1),random.randint(0,1)],random.randint(50,250)))
     i+=-1
-
+Planetlist.append(Planet(500,500,200,[1,1,1,1],100))
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
     font = pygame.freetype.SysFont("Courier", font_size, bold=True)
@@ -249,6 +249,54 @@ def out_of_fuel_screen(screen,background, screen_width, screen_height):
 
         pygame.display.flip()
 
+def out_of_health(screen,background, screen_width, screen_height):
+    screen.blit(background, (0,0))
+
+    uielement = UIElement(
+        center_position=(screen_width/2, screen_height - 600),
+        font_size=40,
+        text_rgb=WHITE,
+        text="You are out of health",
+    )
+    start_btn = UIElement(
+        center_position=(screen_width/2, screen_height - 500),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Return to main menu",
+        action=GameState.TITLE,
+    )
+    quit_btn = UIElement(
+        center_position=(screen_width/2, screen_height - 400),
+        font_size=30,
+        text_rgb=WHITE,
+        text="Quit Game",
+        action=GameState.QUIT,
+    )
+
+    buttons = [uielement, start_btn, quit_btn]
+    
+
+    while True:
+
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
+        screen.blit(background, (0,0))
+
+
+        for button in buttons:
+            ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if ui_action is not None:
+                return ui_action
+            button.draw(screen)
+
+        pygame.display.flip()
+
 
 def title_screen(screen,background, resX, resY):
     screen.blit(background, (0,0))
@@ -332,6 +380,12 @@ def play_level(screen,player,camera, resX, resY):
         font_size=40,
         text_rgb=WHITE,
         text="Almost out of oxygen! 25% left.",
+    )
+    health_notif = UIElement(
+        center_position=(800, resY * 0.95),
+        font_size=40,
+        text_rgb=WHITE,
+        text="Almost out of health! 25% left.",
     )
     
     repair_txt = UIElement(
@@ -452,6 +506,8 @@ def play_level(screen,player,camera, resX, resY):
             water_notif.draw(screen)
         if(oxygen_bar.value < 25):
             oxygen_notif.draw(screen)
+        if(health_bar.value <= 25):
+            health_notif.draw(screen)
         
         if(player.landed and steel_bar.value >= 100 and health_bar.value < 100):
             repair_txt.draw(screen)
@@ -510,6 +566,7 @@ class GameState(Enum):
     NOFUEL = 2
     FOOD = 3
     WATER = 4
+    HEALTH = 5
 
 
 # Define acceleration constants
@@ -589,6 +646,8 @@ def Main():
             game_state = out_of_food_screen(screen,nebula, resX, resY)
         if(game_state == GameState.WATER):
             game_state = out_of_water_screen(screen,nebula, resX, resY)
+        if(game_state == GameState.HEALTH):
+            game_state = out_of_health(screen,nebula, resX, resY)
 
         pygame.display.flip()
 
