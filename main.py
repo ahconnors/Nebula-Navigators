@@ -358,32 +358,32 @@ def play_level(screen,player,camera, resX, resY):
         action=GameState.TITLE,
     )
     fuel_notif = UIElement(
-        center_position=(800, resY * 0.95),
-        font_size=40,
+        center_position=(resX * .8, resY * 0.80),
+        font_size=30,
         text_rgb=WHITE,
         text="Almost out of fuel! 25% left.",
     )
     fuel_notif = UIElement(
-        center_position=(800, resY * 0.95),
-        font_size=40,
+        center_position=(resX * .8, resY * 0.80),
+        font_size=30,
         text_rgb=WHITE,
         text="Almost out of fuel! 25% left.",
     )
     water_notif = UIElement(
-        center_position=(800, resY * 0.95),
-        font_size=40,
+        center_position=(resX * .8, resY * 0.85),
+        font_size=30,
         text_rgb=WHITE,
         text="Almost out of water! 25% left.",
     )
     oxygen_notif = UIElement(
-        center_position=(800, resY * 0.95),
-        font_size=40,
+        center_position=(resX * .8, resY * 0.90),
+        font_size=30,
         text_rgb=WHITE,
         text="Almost out of oxygen! 25% left.",
     )
     health_notif = UIElement(
-        center_position=(800, resY * 0.95),
-        font_size=40,
+        center_position=(resX * .8, resY * 0.95),
+        font_size=30,
         text_rgb=WHITE,
         text="Almost out of health! 25% left.",
     )
@@ -555,6 +555,12 @@ def play_level(screen,player,camera, resX, resY):
         
         if(player.gettingSteel):
             steel_bar.setValue(steel_bar.value + 0.1)
+        if(health_bar.value <= 0):
+            return GameState.HEALTH
+        if(water_bar.value <= 0):
+            return GameState.WATER
+        if(oxygen_bar.value <= 0):
+            return GameState.FOOD
         
         
 
